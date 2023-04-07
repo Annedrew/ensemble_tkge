@@ -2,6 +2,7 @@ import itertools
 import json
 import numpy as np
 from constants import *
+from sklearn.model_selection import train_test_split
 
 class grid_search:
     def __init__(self):
@@ -16,8 +17,13 @@ class grid_search:
             predictions = np.array(rank_values, dtype=int)
             predictions = predictions.transpose()
             predictions = {model_name[i]: predictions[i].tolist() for i in range(len(predictions))}
-            
         return predictions
+
+
+    def dataset_split(self, predictions) -> list:
+        predictions = np.array(list(predictions.values()))
+        train, test = train_test_split(predictions, test_size=0.3, random_state=42)
+        return train, test
 
 
     def calculate_ensemble_score(self, y_pred, models):

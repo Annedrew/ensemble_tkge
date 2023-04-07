@@ -21,8 +21,11 @@ if __name__ == "__main__":
     }
 
     my_grid_search = grid_search()
-    y_pred = np.array(list((my_grid_search.load_predictions('temp.json')).values()))
-    best_weights = my_grid_search.grid_search_weight(y_pred, models, weight_ranges)
+    predictions = my_grid_search.load_predictions("temp.json")
+    ens_train, ens_test = my_grid_search.dataset_split(predictions)
+    print(f"train: {ens_train}")
+    print(f"test: {ens_test}")
+    best_weights = my_grid_search.grid_search_weight(ens_train, models, weight_ranges)
     print("best weight: ", best_weights)
-    ensemble_score = my_grid_search.calculate_ensemble_score(y_pred, {model_name: best_weights[i] for i, model_name in enumerate(models)})
+    ensemble_score = my_grid_search.calculate_ensemble_score(ens_train, {model_name: best_weights[i] for i, model_name in enumerate(models)})
     print("ensemble_score: ", ensemble_score)
