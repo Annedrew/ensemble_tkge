@@ -19,7 +19,7 @@ class Grid_search:
             predictions = {model_name[i]: predictions[i].tolist() for i in range(len(predictions))}
 
         return predictions
-    
+
 
     def dataset_split(self, predictions: dict) -> list:
         predictions = np.transpose(np.array(list(predictions.values())))
