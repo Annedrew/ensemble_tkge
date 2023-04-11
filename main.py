@@ -3,6 +3,7 @@ from bayesian_opt import Bayesian_opt
 import numpy as np
 import json
 from sklearn.model_selection import train_test_split
+import time
 
 
 if __name__ == "__main__":
@@ -29,13 +30,17 @@ if __name__ == "__main__":
     ens_train, ens_test = my_grid_search.dataset_split(predictions)
     print(f"train: {ens_train}")
     print(f"test: {ens_test}")
+    start_time = time.time()
     # best_weights = my_grid_search.grid_search_weight(ens_train, list(init_weight.values()), weight_ranges)
     # print("best weight: ", best_weights)
 
     # ensemble_score = my_grid_search.calculate_ensemble_score(ens_train, best_weights)
     # print("ensemble_score: ", ensemble_score)
-
+    time_grid = time.time()
 
     # Bayesian Optimization
     my_bayesian_opt = Bayesian_opt()
     best_weights = my_bayesian_opt.bayesian_opt_weight()
+    time_bayes = time.time()
+    print(f"The running time for grid search: {time_grid - start_time}")
+    print(f"The running time for bayesian optimization search: {time_bayes - time_grid}")
