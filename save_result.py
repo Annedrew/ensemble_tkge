@@ -8,7 +8,7 @@ def save_file(best_weights, run_time, ensemble_score, args):
                 run_time = f"Running time: {run_time}s"
                 best_weights = f"DE_TransE: {best_weights[0]}, DE_SimplE: {best_weights[1]}, DE_DistMult: {best_weights[2]}, TERO: {best_weights[3]}, ATISE: {best_weights[4]}"
                 # ensemble_score = f"HITS@1: {}"
-                f.write("______RUN______" + "\n")
+                f.write("\n" + "______RUN______" + "\n")
                 f.write(run_time + "\n")
                 f.write(best_weights + "\n")
         else:
