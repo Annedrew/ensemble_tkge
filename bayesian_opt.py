@@ -1,5 +1,7 @@
 from bayes_opt import BayesianOptimization
+from bayes_opt.util import load_logs
 from grid_search import *
+from constants import *
 
 
 class Bayesian_opt:
@@ -8,32 +10,42 @@ class Bayesian_opt:
 
 
     def objective_function(self, w1, w2, w3, w4, w5):
+        weights = [w1, w2, w3, w4, w5]
         gs = Grid_search()
-        predictions = gs.load_predictions("result/icews14/ranked_quads.json")
+        predictions = gs.load_predictions("results/icews14/ranked_quads.json")
+        # predictions = gs.load_predictions("temp.json")
         ens_train, ens_test = gs.dataset_split(predictions)
         ensemble_score = 0
-        for i in range(ens_train.shape[0]):
-            ensemble_score = w1 * ens_train[i][0] + w2 * ens_train[i][1] + w3 * ens_train[i][2] + w4 * ens_train[i][3] + w5 * ens_train[i][4]
-            ensemble_score = -round(ensemble_score, 2)
-            # print(ensemble_score)
-                
+        if sum(weights) != 1:
+            pass
+        else:
+            for i in range(ens_train.shape[0]):
+                for j, k in zip(range(ens_train.shape[1]), range(len(weights))):
+                    ensemble_score += weights[k] * ens_train[i][j]
+        ensemble_score = - ensemble_score
+        print(ensemble_score)
+        
         return ensemble_score
+    
 
-
-    def bayesian_opt_weight(self):#, bounds=BOUNDS):
-        BOUNDS = {'w1': (0.5, 1.0), 'w2': (0.1, 0.5), 'w3': (0.2, 0.5), 'w4': (0.1, 0.5), 'w5': (0.1, 0.5)}
-
+    def bayesian_opt_weight(self, bounds=BOUNDS):
         optimizer = BayesianOptimization(
             f=self.objective_function, 
-            pbounds=BOUNDS,
+            pbounds=bounds,
             # for reproducibility
             random_state=1,
             allow_duplicate_points=True
         )
+
         optimizer.maximize(
             init_points=5,
             n_iter=10
         )
+
+        # Continue the optimization process from a previously saved state
+        # optimizer = load_logs(optimizer, logs=["./logs_bayes.json"])
+
         print(f"Ensemble Score: {optimizer.max['target']:.4f}")
-        print(f"Best weights: {optimizer.max['params']}")
-        
+        # print(f"Best weights: {optimizer.max['params']}")
+        best_weights = optimizer.max['params']
+        return best_weights

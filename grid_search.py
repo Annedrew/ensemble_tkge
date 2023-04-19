@@ -30,6 +30,7 @@ class Grid_search:
 
     def calculate_ensemble_score(self, rank_score: np.ndarray, model_weights: list):
         ensemble_score = 0
+        # print(f"rank_score shape: {rank_score.shape}")
         for i in range(rank_score.shape[0]):
             for j in range(rank_score.shape[1]):
                 ensemble_score += model_weights[j] * rank_score[i][j]
@@ -40,6 +41,8 @@ class Grid_search:
     
 
     def grid_search_weight(self, rank_score: np.ndarray, model_weights: list, weight_ranges: dict):
+        # all_score = []
+        set_num = 0
         best_weights = None
         init_score = self.calculate_ensemble_score(rank_score, model_weights)
         print("init_score: ", init_score)
@@ -48,6 +51,7 @@ class Grid_search:
             if sum(weights) != 1:
                 pass
             else:
+                set_num += 1
                 ensemble_score = self.calculate_ensemble_score(rank_score, list(weights))
                 if ensemble_score < init_score:
                     init_score = ensemble_score
@@ -55,8 +59,14 @@ class Grid_search:
                     best_weights = model_weights
                 else:
                     best_weights = model_weights
+                    init_score = ensemble_score
+                # all_score.append(init_score)
                 print(f"updated weight: {best_weights}")
-        
+                # print(f"The number of qualified sets: {set_num}")
+            
+        # all_score.sort()
+        # print(f"The list of ensemble score: {all_score}")
+
         return best_weights
     
 
