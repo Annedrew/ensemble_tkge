@@ -1,6 +1,6 @@
 import os
 
-def save_file(best_weights, run_time, ensemble_score, args):
+def save_file(best_weights, run_time, metric, args):
     if args.method == "grid":
         file_name = "grid_results.txt"
         if os.path.exists(file_name):
@@ -11,6 +11,7 @@ def save_file(best_weights, run_time, ensemble_score, args):
                 f.write("\n" + "______RUN______" + "\n")
                 f.write(run_time + "\n")
                 f.write(best_weights + "\n")
+                f.write(f"MRR: {metric}" + "\n")
         else:
             with open(file_name, "w") as f:
                 run_time = f"Running time: {run_time}s"
@@ -19,6 +20,7 @@ def save_file(best_weights, run_time, ensemble_score, args):
                 f.write("\n" + "______RUN______" + "\n")
                 f.write(run_time + "\n")
                 f.write(best_weights + "\n")
+                f.write(f"MRR: {metric}" + "\n")
     elif args.method == "bayes:":
         file_name = "bayes_results.txt"
         if os.path.exists(file_name):
@@ -29,6 +31,7 @@ def save_file(best_weights, run_time, ensemble_score, args):
                 f.write("\n" + "______RUN______" + "\n")
                 f.write(run_time + "\n")
                 f.write(best_weights + "\n")
+                f.write(f"MRR: {metric}" + "\n")
         else:
             with open(file_name, "w") as f:
                 run_time = f"Running time: {run_time}s"
@@ -37,5 +40,6 @@ def save_file(best_weights, run_time, ensemble_score, args):
                 f.write("\n" + "______RUN______" + "\n")
                 f.write(run_time + "\n")
                 f.write(best_weights + "\n")
+                f.write(f"MRR: {metric}" + "\n")
     else:
         pass
