@@ -1,0 +1,79 @@
+[
+    {
+        "FACT_ID": "FACT_1_0",
+        "HEAD": "0",
+        "RELATION": "Make statement",
+        "TAIL": "Afghanistan",
+        "TIME": "2014-03-06",
+        "ANSWER": "Ministry (Afghanistan)",
+        "RANK": {
+            "DE_TransE": "4",
+            "DE_SimplE": "6",
+            "DE_DistMult": "8",
+            "TERO": "15",
+            "ATISE": "4"
+        }
+    },
+    {
+        "FACT_ID": "FACT_1_1",
+        "HEAD": "Ministry (Afghanistan)",
+        "RELATION": "0",
+        "TAIL": "Afghanistan",
+        "TIME": "2014-03-06",
+        "ANSWER": "Make statement",
+        "RANK": {
+            "DE_TransE": "1",
+            "DE_SimplE": "4",
+            "DE_DistMult": "2",
+            "TERO": "1",
+            "ATISE": "1"
+        }
+    },
+    {
+        "FACT_ID": "FACT_1_2",
+        "HEAD": "Ministry (Afghanistan)",
+        "RELATION": "Make statement",
+        "TAIL": "0",
+        "TIME": "2014-03-06",
+        "ANSWER": "Afghanistan",
+        "RANK": {
+            "DE_TransE": "3",
+            "DE_SimplE": "2",
+            "DE_DistMult": "1",
+            "TERO": "5",
+            "ATISE": "1",
+            "TFLEX": "4"
+        }
+    },
+    {
+        "FACT_ID": "FACT_1_3",
+        "HEAD": "Ministry (Afghanistan)",
+        "RELATION": "Make statement",
+        "TAIL": "Afghanistan",
+        "TIME": "0",
+        "ANSWER": "2014-03-06",
+        "RANK": {
+            "DE_TransE": "18",
+            "DE_SimplE": "23",
+            "DE_DistMult": "24",
+            "TERO": "27",
+            "ATISE": "25",
+            "TFLEX": "163"
+        }
+    },
+    {
+        "FACT_ID": "FACT_2_0",
+        "HEAD": "0",
+        "RELATION": "Express intent to meet or negotiate",
+        "TAIL": "China",
+        "TIME": "2014-11-04",
+        "ANSWER": "John Kerry",
+        "RANK": {
+            "DE_TransE": "5",
+            "DE_SimplE": "10",
+            "DE_DistMult": "12",
+            "TERO": "4",
+            "ATISE": "11"
+        }
+    }
+]

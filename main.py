@@ -4,32 +4,34 @@ import time
 from arguments import *
 from constants import *
 from save_result import *
+from eval import Eval
 
 if __name__ == "__main__":
     args = init_args()
     # Grid Search
     if args.method == "grid":
         init_weight = {
-            'DE_TransE': 0.2,
-            'DE_SimplE': 0.2,
-            'DE_DistMult': 0.2,
-            'TERO': 0.2,
-            'ATISE': 0.2
-        }
+                'DE_TransE': 0.2,
+                'DE_SimplE': 0.2,
+                'DE_DistMult': 0.2,
+                'TERO': 0.2,
+                'ATISE': 0.2
+            }
         my_grid_search = Grid_search()
-        predictions = my_grid_search.load_predictions("/Users/dutao/Documents/github/ensemble_tkge/results/icews14/ranked_quads.json")
-        # predictions = my_grid_search.load_predictions("results/icews14/ranked_quads.json")
+        predictions = my_grid_search.load_predictions()
         ens_train, ens_test = my_grid_search.dataset_split(predictions)
 
         start_time = time.time()
-        best_weights = my_grid_search.grid_search_weight(ens_train, list(init_weight.values()), weight_ranges)
+        best_weights = my_grid_search.grid_search_weight(ens_train, list(init_weight.values()), weight_ranges, args.metric)
         print("best weight: ", best_weights)
-
-        ensemble_score = my_grid_search.calculate_ensemble_score(ens_train, best_weights)
-        print("ensemble_score: ", ensemble_score)
         time_grid = time.time()
         run_time = round((time_grid - start_time), 2)
-        
+
+        # eval
+        eval = Eval()
+        ens_eval = eval.eval(best_weights, ens_test)
+        print("The evaluation results shown as follows: ", ens_eval)
+
     # Bayesian Optimization
     elif args.method == "bayes":
         start_time = time.time()
@@ -39,4 +41,4 @@ if __name__ == "__main__":
         time_bayes = time.time()
         run_time = round((time_bayes - start_time), 2)
         
-    save_file(best_weights, run_time, ensemble_score, args)
+    save_file(best_weights, run_time, ens_eval, args)

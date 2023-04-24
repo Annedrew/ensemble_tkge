@@ -1,0 +1,98 @@
+______RUN______
+Running time: 24.88s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+
+______RUN______
+Running time: 31.54s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+
+______RUN______
+Running time: 30.43s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+
+______RUN______
+Running time: 30.7s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+
+______RUN______
+Running time: 0.03s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+
+______RUN______
+Running time: 0.03s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+
+______RUN______
+Running time: 28.99s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: 0.6344682929331757
+
+______RUN______
+Running time: 0.03s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: 0.34645857038020295
+
+______RUN______
+Running time: 29.4s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: {'ens': {'Hits@1': 0.0, 'Hits@3': 0.0, 'Hits@10': 0.0, 'MR': 1188342.3199999789, 'MRR': 9.24139524821338e-07}}
+
+______RUN______
+Running time: 30.32s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: {'ens': {'Hits@1': 0.0, 'Hits@3': 0.0, 'Hits@10': 0.0, 'MR': 809499.1149218783, 'MRR': 1.1611412414546286e-05}}
+
+______RUN______
+Running time: 0.03s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: {'ens': {'Hits@1': 0.0, 'Hits@3': 0.0, 'Hits@10': 0.0, 'MR': 0.34687912613889393, 'MRR': 2.8828485908938486}}
+
+______RUN______
+Running time: 0.03s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: {'ens': {'Hits@1': 0.0, 'Hits@3': 0.0, 'Hits@10': 0.0, 'MR': 0.34687912613889393, 'MRR': 2.8828485908938486}}
+
+______RUN______
+Running time: 31.98s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: {'ens': {'Hits@1': 0.0, 'Hits@3': 0.0, 'Hits@10': 0.0, 'MR': 809499.1149218783, 'MRR': 1.1611412414546286e-05}}
+
+______RUN______
+Running time: 33.38s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: {'ens': {'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}}
+
+______RUN______
+Running time: 31.59s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: {'ens': {'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}}
+
+______RUN______
+Running time: 0.03s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: dict_values([{'Hits@1': 0.0, 'Hits@3': 0.0, 'Hits@10': 0.0, 'MR': 0.34687912613889393, 'MRR': 2.8828485908938486}])
+
+______RUN______
+Running time: 0.12s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: dict_values([{'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}])
+
+______RUN______
+Running time: 29.95s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: dict_values([{'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}])
+
+______RUN______
+Running time: 0.09s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: dict_values([{'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}])
+
+______RUN______
+Running time: 0.1s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: dict_values([{'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}])
+
+______RUN______
+Running time: 32.89s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: dict_values([{'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}])

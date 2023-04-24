@@ -7,10 +7,6 @@ from torch.nn import functional as F
 from torch.autograd import Variable
 
 
-    
-    
-
-    
 class TeRo(nn.Module):
     def __init__(self, kg, embedding_dim, batch_size, learning_rate, L, gran, gamma, n_day, gpu=True):
         super(TeRo, self).__init__()

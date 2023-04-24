@@ -6,7 +6,6 @@ import time
 from collections import defaultdict
 
 
-
 class KnowledgeGraph:
     def __init__(self, data_dir, gran=1,rev_set=0):
         self.data_dir = data_dir
