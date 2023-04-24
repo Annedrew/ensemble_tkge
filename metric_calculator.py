@@ -39,9 +39,9 @@ class MetricCalculator():
         ret_dict = {}
         for embedding in self.hit1.keys():
             ret_dict[embedding] = {
-                "HIT1": self.hit1[embedding], 
-                "HIT3": self.hit3[embedding], 
-                "HIT10": self.hit10[embedding], 
+                "Hits@1": self.hit1[embedding], 
+                "Hits@3": self.hit3[embedding], 
+                "Hits@10": self.hit10[embedding], 
                 "MR": self.mr[embedding], 
                 "MRR": self.mrr[embedding]
             }
