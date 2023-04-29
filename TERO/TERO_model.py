@@ -39,8 +39,8 @@ class TeRo(nn.Module):
         self.relu = nn.ReLU()
         
         
-        if self.gpu:
-            self.cuda()
+        # if self.gpu:
+        #     self.cuda()
 
 
 
@@ -48,10 +48,10 @@ class TeRo(nn.Module):
         h_i, t_i, r_i, d_i = X[:, 0].astype(np.int64), X[:, 1].astype(np.int64), X[:, 2].astype(np.int64), X[:, 3].astype(np.int64)//self.gran
 
         if self.gpu:
-            h_i = Variable(torch.from_numpy(h_i).cuda())
-            t_i = Variable(torch.from_numpy(t_i).cuda())
-            r_i = Variable(torch.from_numpy(r_i).cuda())
-            d_i = Variable(torch.from_numpy(d_i).cuda())
+            h_i = Variable(torch.from_numpy(h_i))#.cuda())
+            t_i = Variable(torch.from_numpy(t_i))#.cuda())
+            r_i = Variable(torch.from_numpy(r_i))#.cuda())
+            d_i = Variable(torch.from_numpy(d_i))#.cuda())
         else:
             h_i = Variable(torch.from_numpy(h_i))
             t_i = Variable(torch.from_numpy(t_i))
@@ -140,17 +140,17 @@ class ATISE(nn.Module):
         # Regularization
         self.normalize_embeddings()
         
-        if self.gpu:
-            self.cuda()
+        # if self.gpu:
+        #     self.cuda()
             
     def forward(self, X):
         h_i, t_i, r_i, d_i = X[:, 0].astype(np.int64), X[:, 1].astype(np.int64), X[:, 2].astype(np.int64), X[:, 3].astype(np.float32)
 
         if self.gpu:
-            h_i = Variable(torch.from_numpy(h_i).cuda())
-            t_i = Variable(torch.from_numpy(t_i).cuda())
-            r_i = Variable(torch.from_numpy(r_i).cuda())
-            d_i = Variable(torch.from_numpy(d_i).cuda())
+            h_i = Variable(torch.from_numpy(h_i))#.cuda())
+            t_i = Variable(torch.from_numpy(t_i))#.cuda())
+            r_i = Variable(torch.from_numpy(r_i))#.cuda())
+            d_i = Variable(torch.from_numpy(d_i))#.cuda())
 
         else:
             h_i = Variable(torch.from_numpy(h_i))

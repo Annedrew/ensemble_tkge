@@ -4,8 +4,9 @@ import time
 import datetime
 
 class RankCalculator:
-    def __init__(self, params, model):
-        self.params = params
+    # def __init__(self, params, model):
+    #     self.params = params
+    def __init__(self, model):
         self.kg = model.kg
         self.model = model
 
