@@ -10,8 +10,15 @@ class RankCalculator:
         self.kg = model.kg
         self.model = model
 
-    def get_rank(self, scores):  # assuming the first fact is the correct fact
-        return torch.sum((scores < scores[0]).float()).item() + 1
+    def get_rank(self, scores)-> list:  # assuming the first fact is the correct fact
+            rank = []
+            for i in range(len(scores)):
+                rank.append(torch.sum((scores < scores[i]).float()).item() + 1)
+            # print(len(rank))
+            return rank
+
+    # def get_rank(self, scores):  # assuming the first fact is the correct fact
+    #     return torch.sum((scores < scores[0]).float()).item() + 1
 
     def get_ent_id(self, entity):
         return self.kg.entity_dict[entity]
@@ -77,4 +84,4 @@ class RankCalculator:
         scores = self.model.forward(facts)
         rank = self.get_rank(scores)
 
-        return int(rank)
+        return rank

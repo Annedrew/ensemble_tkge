@@ -15,7 +15,13 @@ class RankCalculator:
         self.num_of_rel = self.dataset.numRel()
 
     def get_rank(self, sim_scores):  # assuming the test fact is the first one
-        return (sim_scores > sim_scores[0]).sum() + 1
+            rank = []
+            for i in range(len(sim_scores)):
+                rank.append((sim_scores > sim_scores[i]).sum() + 1)
+            return rank
+
+    # def get_rank(self, sim_scores):  # assuming the test fact is the first one
+    #     return (sim_scores > sim_scores[0]).sum() + 1
 
     def split_timestamp(self, element):
         dt = date.fromisoformat(element)
