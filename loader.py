@@ -21,9 +21,7 @@ class Loader:
             sys.modules['model'] = TERO_model
             sys.modules['Dataset'] = Dataset
         model = torch.load(self.model_path, map_location="cpu")
-        print(model.embedding)
         sys.modules = old_modules
-        print(model)
         return model
 
 if __name__ == "__main__":
