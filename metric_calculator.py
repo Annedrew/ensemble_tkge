@@ -1,5 +1,4 @@
 import json
-from grid_search import Grid_search
 
 class MetricCalculator():
     def __init__(self):
@@ -52,7 +51,7 @@ class MetricCalculator():
                 "RANK": self.rank[embedding]
             }
         
-        with open("overall.json", "w") as f:
-            json.dump(ret_dict, f, indent=4)
+        # with open("overall.json", "w") as f:
+        #     json.dump(ret_dict, f, indent=4)
 
         return ret_dict
