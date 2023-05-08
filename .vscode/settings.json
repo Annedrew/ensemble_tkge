@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "/Users/dutao/opt/anaconda3/lib/python3.9/site-packages",
+        "./de_simple"
+    ]
+}

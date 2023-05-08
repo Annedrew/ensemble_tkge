@@ -26,9 +26,9 @@ class DatasetSplit():
                     if data[query]["FACT_ID"] == ens_test_id[test_id]:
                         ens_test.append(data[query])
 
-        with open("ens_train.json", "w") as f:
+        with open("/ens_dataset/ens_train.json", "w") as f:
             # 25096
             json.dump(ens_train, f, indent=4)
-        with open("ens_test.json", "w") as f:
+        with open("/ens_dataset/ens_test.json", "w") as f:
             # 10756
             json.dump(ens_test, f, indent=4)
