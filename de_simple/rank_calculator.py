@@ -10,7 +10,7 @@ class RankCalculator:
     def __init__(self, model):
         self.dataset = model.module.dataset
         self.model = model
-
+        # These can print directly
         self.num_of_ent = self.dataset.numEnt()
         self.num_of_rel = self.dataset.numRel()
 

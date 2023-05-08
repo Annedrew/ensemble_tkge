@@ -31,7 +31,7 @@ if __name__ == "__main__":
         
         # Form the input format of function grid_search_weight()
         ens_train = []
-        with open("ens_train.json", "r") as f:
+        with open("/ens_dataset/ens_train.json", "r") as f:
             data = json.load(f)
             for query in range(len(data)):
                 # Remember to filter out TFLEX model

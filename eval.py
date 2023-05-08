@@ -12,7 +12,7 @@ class Eval():
         sin_rank = {"ENS": rank_score}
     
         eval = metric.calculate_metric(sin_rank)
-        with open("over.json", "w") as f:
+        with open("/new_results/over.json", "w") as f:
             json.dump(eval, f, indent=4)
             
         return eval
@@ -31,7 +31,7 @@ class Eval():
         eval_ens = metric.calculate_metric(ens_rank)
         # eval_ens = eval_ens.values()
         # eval_ens = ', '.join(str(value) for value in eval_ens)
-        with open("over_ens.json", "w") as f:
+        with open("/new_results/over_ens.json", "w") as f:
             json.dump(eval_ens, f, indent=4)
 
         return eval_ens
@@ -44,7 +44,7 @@ class Eval():
         sin_rank = {"DE_TransE": rank_score[0].tolist(), "DE_SimplE": rank_score[1].tolist(), "DE_DistMult": rank_score[2].tolist(), "TERO": rank_score[3].tolist(), "ATISE": rank_score[4].tolist()}
     
         eval = metric.calculate_metric(sin_rank)
-        with open("individual_eval.json", "w") as f:
+        with open("/new_results/individual_eval.json", "w") as f:
             json.dump(eval, f, indent=4)
             
         return eval
