@@ -29,8 +29,17 @@ if __name__ == "__main__":
             }
         my_grid_search = Grid_search()
         
-        with open("ens_test.txt", "w") as f:
-            f.write(str(ens_test))
+        # Form the input format of function grid_search_weight()
+        ens_train = []
+        with open("ens_train.json", "r") as f:
+            data = json.load(f)
+            for query in range(len(data)):
+                # Remember to filter out TFLEX model
+                rank = [int(item) for item in data[query]["RANK"].values()][:5]
+                ens_train.append(rank)
+            ens_train = np.array(ens_train)
+            ens_train = ens_train.transpose()
+
         start_time = time.time()
         best_weights = my_grid_search.grid_search_weight(ens_train, list(init_weight.values()), weight_ranges, args.metric)
         print("best weight: ", best_weights)
@@ -69,12 +78,13 @@ if __name__ == "__main__":
         # print("The evaluation results shown as follows: \n", ens_eval)
 
     # Bayesian Optimization
-    # elif args.method == "bayes":
-    #     start_time = time.time()
-    #     my_bayesian_opt = Bayesian_opt()
-    #     best_weights = my_bayesian_opt.bayesian_opt_weight()
-    #     ensemble_score = my_bayesian_opt.objective_function(best_weights[0], best_weights[1], best_weights[2], best_weights[3], best_weights[4])
-    #     time_bayes = time.time()
-    #     run_time = round((time_bayes - start_time), 2)
-        
-    # save_file(best_weights, run_time, ens_eval, args)
+    elif args.method == "bayes":
+        start_time = time.time()
+        my_bayesian_opt = Bayesian_opt()
+        best_weights = my_bayesian_opt.bayesian_opt_weight()
+        print(f"Best weights: {best_weights}")
+        # ensemble_score = my_bayesian_opt.objective_function(best_weights[0], best_weights[1], best_weights[2], best_weights[3], best_weights[4])
+        time_bayes = time.time()
+        run_time = round((time_bayes - start_time), 2)
+    ens_eval = 0
+    save_file(best_weights, run_time, ens_eval, args)

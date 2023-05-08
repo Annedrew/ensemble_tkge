@@ -5,40 +5,38 @@ import os
 from TERO.rank_calculator import RankCalculator as TERO_Rank
 import numpy as np
 from eval import Eval
+import time
 
 class EnsembleRanking():
-    def load(self, model_name):
-        # Load models
-        quads = "questions/cor_icews14_test.json"
-        with open(quads, "r") as f:
+    # Get ensemble rankings for all simulated fact
+    def load_model(self, model_name, file_path):
+        with open(file_path, "r") as f:
             ranked_quads = json.load(f)
-        for name in model_name:
-            model_path = os.path.join("models", name, "icews14", "Model.model")
-            loader = Loader(model_path, name)
-            model = loader.load()
-            ranker = Ranker(ranked_quads, model, name)
-            #  Get a list of all the rankings, not only correct ranking
-            rank = ranker.rank()
+            for name in model_name:
+                model_path = os.path.join("models", name, "icews14", "Model.model")
+                loader = Loader(model_path, name)
+                model = loader.load()
+                ranker = Ranker(ranked_quads, model, name)
+                #  Get a list of all the rankings, not only correct ranking
+                rank = ranker.rank()
         with open("a.json", "w") as f:
             json.dump(rank, f, indent=4)
 
 
+    # Calculate ensemble Scores
     def get_ens_score(self, model_name, best_weights):
-        # Ensemble Scores
         with open("a.json", "r") as f:
             data = json.load(f)
             ens_scores_head = []
             ens_scores_relation = []
             ens_scores_tail = []
             ens_scores_time = []
-            # For now, 12 queries
             for query in range(len(data)):
                 ens_score = 0
                 if data[query]["HEAD"] == "0":
-                    # The ensemble score for 1 query
                     for i, name in zip(range(len(model_name)), model_name):
                         # The rank of all entities
-                        # the datatype here is str, not list, using json.loads load the json file into python object
+                        # The datatype here is str, not list, using json.loads load the json file into python object
                         # The shape of different query is different, use the short length: [:7129]
                         # if name in ["DE_TransE", "DE_SimplE", "DE_DistMult"]:
                         rank_entity = np.array(json.loads(data[query]["RANK"][name]))[:7129]
@@ -80,7 +78,7 @@ class EnsembleRanking():
 
         return ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time
 
-
+    # Rank all simulated fact by ensemble score
     def get_ens_rank(self, ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time):
         with open("a.json", "r") as f:
             data = json.load(f)
@@ -151,7 +149,7 @@ class EnsembleRanking():
                 elif data[query]["TIME"] == "0":
                     data[query]["RANK"] = str(ranks_time[ti])
                     ti += 1
-        with open("a.json", "w") as f:
+        with open("ensemble_n.json", "w") as f:
             json.dump(data, f, indent=4)
 
 
@@ -162,15 +160,20 @@ class EnsembleRanking():
             for query in range(len(data)):
                 ens_ranks.append(json.loads(data[query]["RANK"]))
             eval = Eval()
-            eval.eval_rank(best_weights, ens_ranks)
+            eval.eval_ens(best_weights, ens_ranks)
 
 
 
 if __name__ == "__main__":
     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
-    best_weights = [0.1, 0.1, 0.1, 0.1, 0.1]
+    best_weights = [0.14, 0.21, 0.19, 0.24, 0.22]
+    # best_weights = [0.5, 0.1, 0.2, 0.1, 0.1]
+    # best_weights = [0.1, 0.1, 0.1, 0.3, 0.4]
+    # best_weights = [0.1, 0.1, 0.1, 0.6, 0.1]
+
+    start_time = time.time()
     ens_eval = EnsembleRanking()
-    ens_eval.load(model_name)
+    ens_eval.load_model(model_name, "ens_test.json")
     ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time = ens_eval.get_ens_score(model_name, best_weights)
     ranks_head, ranks_relation, ranks_tail, ranks_time = ens_eval.get_ens_rank(ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time)
     ens_eval.save_rank(ranks_head, ranks_relation, ranks_tail, ranks_time)

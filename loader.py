@@ -23,7 +23,4 @@ class Loader:
         model = torch.load(self.model_path, map_location="cpu")
         sys.modules = old_modules
         return model
-
-if __name__ == "__main__":
-    load = Loader()
-    load.load
+    
