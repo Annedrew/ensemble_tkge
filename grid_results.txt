@@ -1,0 +1,138 @@
+______RUN______
+Running time: 24.88s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+
+______RUN______
+Running time: 31.54s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+
+______RUN______
+Running time: 30.43s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+
+______RUN______
+Running time: 30.7s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+
+______RUN______
+Running time: 0.03s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+
+______RUN______
+Running time: 0.03s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+
+______RUN______
+Running time: 28.99s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: 0.6344682929331757
+
+______RUN______
+Running time: 0.03s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: 0.34645857038020295
+
+______RUN______
+Running time: 29.4s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: {'ens': {'Hits@1': 0.0, 'Hits@3': 0.0, 'Hits@10': 0.0, 'MR': 1188342.3199999789, 'MRR': 9.24139524821338e-07}}
+
+______RUN______
+Running time: 30.32s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: {'ens': {'Hits@1': 0.0, 'Hits@3': 0.0, 'Hits@10': 0.0, 'MR': 809499.1149218783, 'MRR': 1.1611412414546286e-05}}
+
+______RUN______
+Running time: 0.03s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: {'ens': {'Hits@1': 0.0, 'Hits@3': 0.0, 'Hits@10': 0.0, 'MR': 0.34687912613889393, 'MRR': 2.8828485908938486}}
+
+______RUN______
+Running time: 0.03s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: {'ens': {'Hits@1': 0.0, 'Hits@3': 0.0, 'Hits@10': 0.0, 'MR': 0.34687912613889393, 'MRR': 2.8828485908938486}}
+
+______RUN______
+Running time: 31.98s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: {'ens': {'Hits@1': 0.0, 'Hits@3': 0.0, 'Hits@10': 0.0, 'MR': 809499.1149218783, 'MRR': 1.1611412414546286e-05}}
+
+______RUN______
+Running time: 33.38s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: {'ens': {'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}}
+
+______RUN______
+Running time: 31.59s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: {'ens': {'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}}
+
+______RUN______
+Running time: 0.03s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: dict_values([{'Hits@1': 0.0, 'Hits@3': 0.0, 'Hits@10': 0.0, 'MR': 0.34687912613889393, 'MRR': 2.8828485908938486}])
+
+______RUN______
+Running time: 0.12s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: dict_values([{'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}])
+
+______RUN______
+Running time: 29.95s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: dict_values([{'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}])
+
+______RUN______
+Running time: 0.09s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: dict_values([{'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}])
+
+______RUN______
+Running time: 0.1s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: dict_values([{'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}])
+
+______RUN______
+Running time: 32.89s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: dict_values([{'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}])
+
+______RUN______
+Running time: 0.09s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: dict_values([{'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}])
+
+______RUN______
+Running time: 0.07s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: {'Hits@1': 0.03570100409074005, 'Hits@3': 0.012272220156191893, 'Hits@10': 0.009297136481963555, 'MR': 164.72989959092746, 'MRR': 0.24926091008285645}
+
+______RUN______
+Running time: 31.5s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: {'Hits@1': 0.03570100409074005, 'Hits@3': 0.006972852361472667, 'Hits@10': 0.007437709185570844, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998}
+
+______RUN______
+Running time: 0.06s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: {'Hits@1': 0.03570100409074005, 'Hits@3': 0.012272220156191893, 'Hits@10': 0.009297136481963555, 'MR': 164.72989959092746, 'MRR': 0.24926091008285645}
+
+______RUN______
+Running time: 33.82s
+DE_TransE: 0.5, DE_SimplE: 0.1, DE_DistMult: 0.2, TERO: 0.1, ATISE: 0.1
+MRR: {'Hits@1': 0.03570100409074005, 'Hits@3': 0.2537188545927854, 'Hits@10': 0.423205652658981, 'MR': 151.7298252138336, 'MRR': 0.20827492787827998, 'RANK': 1632005.9999999944}
+
+______RUN______
+Running time: 0.08s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: {'Hits@1': 0.03570100409074005, 'Hits@3': 0.2934176273707698, 'Hits@10': 0.46727407958348827, 'MR': 164.72989959092746, 'MRR': 0.24926091008285645, 'RANK': 1771834.8000000159}
+
+______RUN______
+Running time: 0.05s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: {'Hits@1': 0.03570100409074005, 'Hits@3': 0.2934176273707698, 'Hits@10': 0.46727407958348827, 'MR': 164.72989959092746, 'MRR': 0.24926091008285645, 'RANK': 1771834.8000000159}
+
+______RUN______
+Running time: 0.07s
+DE_TransE: 0.1, DE_SimplE: 0.1, DE_DistMult: 0.1, TERO: 0.3, ATISE: 0.4
+MRR: {'DE_TransE': {'Hits@1': 0.09724804760133879, 'Hits@3': 0.31164001487541837, 'Hits@10': 0.48177761249535145, 'MR': 133.6827817032354, 'MRR': 0.23566917873523824, 'RANK': 1437892}, 'DE_SimplE': {'Hits@1': 0.2455373744886575, 'Hits@3': 0.38629602082558573, 'Hits@10': 0.5255671253253997, 'MR': 150.06889178133136, 'MRR': 0.3420324544158893, 'RANK': 1614141}, 'DE_DistMult': {'Hits@1': 0.218110821866865, 'Hits@3': 0.3501301599107475, 'Hits@10': 0.49209743399033096, 'MR': 182.92822610635923, 'MRR': 0.31171362270367586, 'RANK': 1967576}, 'TERO': {'Hits@1': 0.264038676087765, 'Hits@3': 0.44914466344365933, 'Hits@10': 0.5912049088880624, 'MR': 151.2169021941242, 'MRR': 0.38091561836140714, 'RANK': 1626489}, 'ATISE': {'Hits@1': 0.2501859427296393, 'Hits@3': 0.404332465600595, 'Hits@10': 0.5736333209371514, 'MR': 181.74209743399032, 'MRR': 0.3591572876124787, 'RANK': 1954818}}
