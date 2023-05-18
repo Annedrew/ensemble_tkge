@@ -2,6 +2,11 @@ import numpy as np
 import torch
 import datetime
 from datetime import date
+import json
+from loader import Loader
+import json
+import os
+import numpy as np
 
 
 class RankCalculator:
@@ -98,6 +103,7 @@ class RankCalculator:
             target = "T"
 
         heads, rels, tails, years, months, days = self.simulate_facts(head, relation, tail, time, target, answer)
+        sim_scores = self.model.module(heads, rels, tails, years, months, days).cpu().data.numpy()
         sim_scores = self.model.module(heads, rels, tails, years, months, days).cpu().data.numpy()
         rank = self.get_rank(sim_scores)
 

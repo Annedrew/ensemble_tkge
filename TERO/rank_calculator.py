@@ -85,4 +85,3 @@ class RankCalculator:
         rank = self.get_rank(scores)
 
         return rank
-    
