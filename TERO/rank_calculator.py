@@ -85,3 +85,20 @@ class RankCalculator:
         rank = self.get_rank(scores)
 
         return rank
+
+
+    def get_sim_score(self, head, relation, tail, time, answer):
+            target = "?"
+            if head == "0":
+                target = "h"
+            elif relation == "0":
+                target = "r"
+            elif tail == "0":
+                target = "t"
+            elif time == "0":
+                target = "T"
+
+            facts = self.simulate_facts(head, relation, tail, time, target, answer)
+            scores = self.model.forward(facts).tolist()
+
+            return scores

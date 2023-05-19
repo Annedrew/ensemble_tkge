@@ -91,6 +91,7 @@ class RankCalculator:
 
         return self.shred_facts(np.array(sim_facts))
 
+
     def get_rank_of(self, head, relation, tail, time, answer):
         target = "?"
         if head == "0":
@@ -104,7 +105,23 @@ class RankCalculator:
 
         heads, rels, tails, years, months, days = self.simulate_facts(head, relation, tail, time, target, answer)
         sim_scores = self.model.module(heads, rels, tails, years, months, days).cpu().data.numpy()
-        sim_scores = self.model.module(heads, rels, tails, years, months, days).cpu().data.numpy()
         rank = self.get_rank(sim_scores)
 
         return rank
+
+
+    def get_sim_score(self, head, relation, tail, time, answer):
+        target = "?"
+        if head == "0":
+            target = "h"
+        elif relation == "0":
+            target = "r"
+        elif tail == "0":
+            target = "t"
+        elif time == "0":
+            target = "T"
+
+        heads, rels, tails, years, months, days = self.simulate_facts(head, relation, tail, time, target, answer)
+        sim_scores = self.model.module(heads, rels, tails, years, months, days).cpu().data.numpy().tolist()
+        
+        return sim_scores

@@ -1,5 +1,5 @@
 from loader import Loader
-from ranker import Ranker
+from simulated_facts import SimulatedRank, SimulatedScore
 import json
 import os
 from TERO.rank_calculator import RankCalculator as TERO_Rank
@@ -8,22 +8,49 @@ from eval import Eval
 import time
 
 class EnsembleRanking():
-    # Get ensemble rankings for all simulated fact
-    def load_model(self, model_name, file_path):
+    # Get ranks for all simulated fact
+    def load_sim_ranks(self, model_name, file_path):
         with open(file_path, "r") as f:
             ranked_quads = json.load(f)
             for name in model_name:
                 model_path = os.path.join("models", name, "icews14", "Model.model")
                 loader = Loader(model_path, name)
                 model = loader.load()
-                ranker = Ranker(ranked_quads, model, name)
+                ranker = SimulatedRank(ranked_quads, model, name)
                 #  Get a list of all the rankings, not only correct ranking
-                rank = ranker.rank()
-        simu_ranks_path = "/new_results/simu_ranks.json"
+                rank = ranker.sim_rank()
+        simu_ranks_path = os.path.join("new_results/", f"{file_path.split('/')[-1].split('.')[0]}_sim_ranks.json")
         with open(simu_ranks_path, "w") as f:
             json.dump(rank, f, indent=4)
         
         return simu_ranks_path
+
+
+    # Get simulated scores for all simulated fact
+    def load_sim_score(self, model_name, file_path):
+        with open(file_path, "r") as f:
+            ranked_quads = json.load(f)
+            for name in model_name:
+                model_path = os.path.join("models", name, "icews14", "Model.model")
+                loader = Loader(model_path, name)
+                model = loader.load()
+                ranker = SimulatedScore(ranked_quads, model, name)
+                #  Get a list of all the rankings, not only correct ranking
+                rank = ranker.sim_score()
+        simu_ranks_path = os.path.join("new_results/", f"{file_path.split('/')[-1].split('.')[0]}_sim_scores.json")
+        with open(simu_ranks_path, "w") as f:
+            json.dump(rank, f, indent=4)
+        
+        return simu_ranks_path
+    
+if __name__ == "__main__":
+    model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
+    rank = EnsembleRanking()
+    # This is for training the NN
+    # rank.load_sim_score(model_name, "dataset/queries/query_ens_train.json")
+    # rank.load_sim_score(model_name, "dataset/queries/temp.json")
+    # This is for testing the NN, since the input of NN is the scores
+    rank.load_sim_score(model_name, "dataset/queries/query_ens_test.json")
 
 
     # Calculate ensemble Scores
@@ -80,6 +107,7 @@ class EnsembleRanking():
                     ens_scores_time.append(ens_score)
 
         return ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time
+
 
     # Rank all simulated fact by ensemble score
     def get_ens_rank(self, ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time, sim_ranks_path):
@@ -172,28 +200,28 @@ class EnsembleRanking():
 
 
 
-if __name__ == "__main__":
-    model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
-    ## MRR
-    best_weights = [0.1, 0.1, 0.1, 0.3, 0.4]
-    ## Normalized the ensemble score directly
-    # best_weights = [0.14, 0.21, 0.19, 0.24, 0.22]
-    ## RANK
-    # best_weights = [0.5, 0.1, 0.2, 0.1, 0.1]
-    ## RR
-    # best_weights = [0.1, 0.1, 0.1, 0.6, 0.1]
+# if __name__ == "__main__":
+#     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
+#     ## MRR
+#     best_weights = [0.1, 0.1, 0.1, 0.3, 0.4]
+#     ## Normalized the ensemble score directly
+#     # best_weights = [0.14, 0.21, 0.19, 0.24, 0.22]
+#     ## RANK
+#     # best_weights = [0.5, 0.1, 0.2, 0.1, 0.1]
+#     ## RR
+#     # best_weights = [0.1, 0.1, 0.1, 0.6, 0.1]
 
-    start_time = time.time()
-    ens_eval = EnsembleRanking()
-    # ens_eval.load_model(model_name, "ens_test.json")
-    sim_ranks_path = ens_eval.load_model(model_name, "/ens_dataset/ens_test.json")
-    print("Model has been loaded.")
-    ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time = ens_eval.get_ens_score(model_name, best_weights, sim_ranks_path)
-    print("Ensemble scores has been calculated.")
-    ranks_head, ranks_relation, ranks_tail, ranks_time = ens_eval.get_ens_rank(ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time, sim_ranks_path)
-    print("Ensemble ranks has been calculated.")
-    ens_ranks_path = ens_eval.save_rank(ranks_head, ranks_relation, ranks_tail, ranks_time, sim_ranks_path)
-    print("Ensemble ranks has been saved.")
-    # The error happens here
-    ens_eval.ens_eval(best_weights, ens_ranks_path)
-    print("Ensemble has been evaluated.")
+#     start_time = time.time()
+#     ens_eval = EnsembleRanking()
+#     # ens_eval.load_model(model_name, "ens_test.json")
+#     sim_ranks_path = ens_eval.load_model(model_name, "/ens_dataset/ens_test.json")
+#     print("Model has been loaded.")
+#     ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time = ens_eval.get_ens_score(model_name, best_weights, sim_ranks_path)
+#     print("Ensemble scores has been calculated.")
+#     ranks_head, ranks_relation, ranks_tail, ranks_time = ens_eval.get_ens_rank(ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time, sim_ranks_path)
+#     print("Ensemble ranks has been calculated.")
+#     ens_ranks_path = ens_eval.save_rank(ranks_head, ranks_relation, ranks_tail, ranks_time, sim_ranks_path)
+#     print("Ensemble ranks has been saved.")
+#     # The error happens here
+#     ens_eval.ens_eval(best_weights, ens_ranks_path)
+#     print("Ensemble has been evaluated.")
