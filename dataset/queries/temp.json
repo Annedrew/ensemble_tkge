@@ -1,0 +1,15 @@
+[{
+    "FACT_ID": "FACT_1_0",
+    "HEAD": "0",
+    "RELATION": "Express intent to engage in diplomatic cooperation (such as policy support)",
+    "TAIL": "Military Personnel (India)",
+    "TIME": "2014-04-22",
+    "ANSWER": "Citizen (India)"
+},{
+    "FACT_ID": "FACT_1_1",
+    "HEAD": "Citizen (India)",
+    "RELATION": "0",
+    "TAIL": "Military Personnel (India)",
+    "TIME": "2014-04-22",
+    "ANSWER": "Express intent to engage in diplomatic cooperation (such as policy support)"
+}]

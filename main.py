@@ -10,8 +10,18 @@ from ranker import Ranker
 import json
 import numpy as np
 from dataset_split import DatasetSplit
+from cor_generate import QueryGenerate
 
 if __name__ == "__main__":
+    # Split the txt file into ens_train and ens_test
+    # data_split = DatasetSplit()
+    # data_split.dataset_split("dataset/icews14/test.txt")
+    # Generate the corrupted fact
+    # query = QueryGenerate()
+    # query.query_generate("dataset/ens_icews14/ens_train.txt")
+    # query.query_generate("dataset/ens_icews14/ens_test.txt")
+
+
     # Dataset split into 2 json files, only need to run once.
     # data_split = DatasetSplit()
     # data_split.dataset_split()
@@ -31,7 +41,7 @@ if __name__ == "__main__":
         
         # Form the input format of function grid_search_weight()
         ens_train = []
-        with open("/ens_dataset/ens_train.json", "r") as f:
+        with open("ens_dataset/ens_train.json", "r") as f:
             data = json.load(f)
             for query in range(len(data)):
                 # Remember to filter out TFLEX model
