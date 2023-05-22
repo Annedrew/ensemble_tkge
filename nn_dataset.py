@@ -31,26 +31,26 @@ class NNDataset:
                 i += 1
                 if i % 100 == 0:
                     print(f"Fetching the score of query: {str(i)}")
-                if "DE_TransE" in obj["RANK"]:
-                    value = obj["RANK"]["DE_TransE"]
+                if model_name[0] in obj["RANK"]:
+                    value = obj["RANK"][model_name[0]]
                     top_5 = [top[1] for top in self.get_top_5((json.loads(value)))]
-                    simu_score_dict["DE_TransE"] = top_5
-                if "DE_SimplE" in obj["RANK"]:
-                    value = obj["RANK"]["DE_SimplE"]
+                    simu_score_dict[model_name[0]] = top_5
+                if model_name[1] in obj["RANK"]:
+                    value = obj["RANK"][model_name[1]]
                     top_5 = [top[1] for top in self.get_top_5((json.loads(value)))]
-                    simu_score_dict["DE_SimplE"] = top_5
-                if "DE_DistMult" in obj["RANK"]:
-                    value = obj["RANK"]["DE_DistMult"]
+                    simu_score_dict[model_name[1]] = top_5
+                if model_name[2] in obj["RANK"]:
+                    value = obj["RANK"][model_name[2]]
                     top_5 = [top[1] for top in self.get_top_5((json.loads(value)))]
-                    simu_score_dict["DE_DistMult"] = top_5
-                if "TERO" in obj["RANK"]:
-                    value = obj["RANK"]["TERO"]
+                    simu_score_dict[model_name[2]] = top_5
+                if model_name[3] in obj["RANK"]:
+                    value = obj["RANK"][model_name[3]]
                     top_5 = [top[1] for top in self.get_top_5((json.loads(value)))]
-                    simu_score_dict["TERO"] = top_5
-                if "ATISE" in obj["RANK"]:
-                    value = obj["RANK"]["ATISE"]
+                    simu_score_dict[model_name[3]] = top_5
+                if model_name[4] in obj["RANK"]:
+                    value = obj["RANK"][model_name[4]]
                     top_5 = [top[1] for top in self.get_top_5((json.loads(value)))]
-                    simu_score_dict["ATISE"] = top_5
+                    simu_score_dict[model_name[4]] = top_5
                     
                 row = []
                 for name in model_name:
@@ -77,22 +77,22 @@ class NNDataset:
                     value = obj["RANK"]["DE_TransE"]
                     top_5 = [top[0] for top in self.get_top_5((json.loads(value)))]
                     simu_id_dict["DE_TransE"] = top_5
-                if "DE_SimplE" in obj["RANK"]:
-                    value = obj["RANK"]["DE_SimplE"]
+                if model_name[1] in obj["RANK"]:
+                    value = obj["RANK"][model_name[1]]
                     top_5 = [top[0] for top in self.get_top_5((json.loads(value)))]
-                    simu_id_dict["DE_SimplE"] = top_5
-                if "DE_DistMult" in obj["RANK"]:
-                    value = obj["RANK"]["DE_DistMult"]
+                    simu_id_dict[model_name[1]] = top_5
+                if model_name[2] in obj["RANK"]:
+                    value = obj["RANK"][model_name[2]]
                     top_5 = [top[0] for top in self.get_top_5((json.loads(value)))]
-                    simu_id_dict["DE_DistMult"] = top_5
-                if "TERO" in obj["RANK"]:
-                    value = obj["RANK"]["TERO"]
+                    simu_id_dict[model_name[2]] = top_5
+                if model_name[3] in obj["RANK"]:
+                    value = obj["RANK"][model_name[3]]
                     top_5 = [top[0] for top in self.get_top_5((json.loads(value)))]
-                    simu_id_dict["TERO"] = top_5
-                if "ATISE" in obj["RANK"]:
-                    value = obj["RANK"]["ATISE"]
+                    simu_id_dict[model_name[3]] = top_5
+                if model_name[4] in obj["RANK"]:
+                    value = obj["RANK"][model_name[4]]
                     top_5 = [top[0] for top in self.get_top_5((json.loads(value)))]
-                    simu_id_dict["ATISE"] = top_5
+                    simu_id_dict[model_name[4]] = top_5
 
                 row = []
                 for name in model_name:
@@ -101,19 +101,63 @@ class NNDataset:
 
         return rows
 
-        
-    def save_csv(self, file_name, rows, model_name, id_score):
-        row_name = []
+
+    def get_target(self, file_path, model_name):
+        # Get the score of correct answer from simulated score file.
+        targets = {}
         for name in model_name:
-            for i in range(len(model_name)):
-                row_name.append(f"{name}_{i+1}")
+            targets[name] = []
+        rows = []
+
+        with open(file_path, "r") as f:
+            objects = ijson.items(f, "item")
+            i = 0
+            for obj in objects:
+                i += 1
+                if i % 100 == 0:
+                    print(f"Fetching the target of query: {str(i)}")
+                if model_name[0] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[0]])[0]
+                    targets[model_name[0]] = value
+                if model_name[1] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[1]])[0]
+                    targets[model_name[1]] = value
+                if model_name[2] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[2]])[0]
+                    targets[model_name[2]] = value
+                if model_name[3] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[3]])[0]
+                    targets[model_name[3]] = value
+                if model_name[4] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[4]])[0]
+                    targets[model_name[4]] = value
+
+                row = []
+                for name in model_name:
+                    row.append(targets[name])
+                rows.append(row)
+                
+            return rows
+
+
+    def save_csv(self, file_name, rows, model_name, id_score, input_target):
+        row_name = []
+        if input_target == "Input":
+            for name in model_name:
+                for i in range(int(len(rows[0])/len(model_name))):
+                    row_name.append(f"{name}_{i+1}")
+        if input_target == "Target":
+            for name in model_name:
+                for i in range(int(len(rows[0])/len(model_name))):
+                    row_name.append(f"Target_{name}_{i+1}")
+
         if id_score == "ID":
             with open(file_name, "w") as f:
                 writer = csv.writer(f)
                 writer.writerow(row_name)
                 for row in rows:
                     writer.writerow(row)
-        elif id_score == "Score":
+        if id_score == "Score":
             with open(file_name, "w") as f:
                 writer = csv.writer(f)
                 writer.writerow(row_name)
@@ -126,12 +170,24 @@ class NNDataset:
         pass
             
 
-
 if __name__ == "__main__":
     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
 
     dataset = NNDataset()
     id_score = ["ID", "Score"]
+    input_target = ["Input", "Target"]
+
+    # Test code
+    # target = dataset.get_target("new_results/temp_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/temp_target.csv", target, model_name, id_score[0], input_target[1])
+
+    # Get the target for training
+    target = dataset.get_target("new_results/query_ens_train_sim_scores.json", model_name)
+    dataset.save_csv("new_results/ens_train_target.csv", target, model_name, id_score[0], input_target[1])
+
+    # Get the target for testing
+    # target = dataset.get_target("new_results/query_ens_test_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/ens_test_target.csv", target, model_name, id_score[0], input_target[1])
 
     # Test code
     # simu_score = dataset.get_input("new_results/temp_sim_scores.json", model_name)
@@ -140,10 +196,10 @@ if __name__ == "__main__":
     # dataset.save_csv("new_results/temp_top_5_id.csv", simu_id, model_name, id_score[0])
 
     # Get the input for training 
-    simu_score = dataset.get_input("new_results/query_ens_train_sim_scores.json", model_name)
-    dataset.save_csv("new_results/ens_train_top_5_score.csv", simu_score, model_name, id_score[1])
-    simu_id = dataset.get_input_id("new_results/query_ens_train_sim_scores.json", model_name)
-    dataset.save_csv("new_results/ens_train_top_5_id.csv", simu_id, model_name, id_score[0])
+    # simu_score = dataset.get_input("new_results/query_ens_train_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/ens_train_top_5_score.csv", simu_score, model_name, id_score[1])
+    # simu_id = dataset.get_input_id("new_results/query_ens_train_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/ens_train_top_5_id.csv", simu_id, model_name, id_score[0])
 
     # Get the input for testing
     # simu_score = dataset.get_input("new_results/query_ens_test_sim_scores.json", model_name)

@@ -22,6 +22,7 @@ class RankCalculator:
     def get_rank(self, sim_scores):  # assuming the test fact is the first one
             rank = []
             for i in range(len(sim_scores)):
+                # here is because the first of simulated score is the score of the answers.
                 rank.append((sim_scores > sim_scores[i]).sum() + 1)
             return rank
 
