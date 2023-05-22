@@ -165,11 +165,11 @@ class NNDataset:
                 for row in rows:
                     writer.writerow(row)
 
-    def concatenate_csv(self, input_file, target_file):
+    def concatenate_csv(self, input_file, target_file, dataset_name):
         inputs = pd.read_csv(input_file)
         targets = pd.read_csv(target_file)
         dataset = pd.concat([inputs, targets], axis=1)
-        dataset.to_csv('new_results/nn_dataset.csv', index=False)
+        dataset.to_csv(dataset_name, index=False)
 
 
     # TODO: Min-Max Normalization
@@ -183,7 +183,8 @@ if __name__ == "__main__":
     dataset = NNDataset()
     id_score = ["ID", "Score"]
     input_target = ["Input", "Target"]
-    dataset.concatenate_csv("new_results/ens_train_top_5_score.csv", "new_results/ens_train_target.csv")
+    # dataset.concatenate_csv("new_results/ens_train_top_5_score.csv", "new_results/ens_train_target.csv", "new_results/ens_train.csv")
+    dataset.concatenate_csv("new_results/ens_test_top_5_score.csv", "new_results/ens_test_target.csv", "new_results/ens_test.csv")
 
     # Test code
     # target = dataset.get_target("new_results/temp_sim_scores.json", model_name)
