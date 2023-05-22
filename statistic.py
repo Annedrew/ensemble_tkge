@@ -1,12 +1,12 @@
-# To analysis the concentrated range of correct answer
-
 import json
 import csv
 import numpy as np
 
-class Statistic():
+# To analysis the concentrated range of correct answer
+class CorrectRange():
     def __init__(self):
         pass
+
 
     # Get the rank for each model
     def ranks_model(self, file_path, model_name):
@@ -68,11 +68,51 @@ class Statistic():
             writer.writerow(sorted_rows)
 
 
-# Count the number of ranks
+class Duplicates:
+    def __init__(self):
+        pass
+
+
+    # Duplicate in total
+    # can be used to get target too
+    def detect_dupli(self, file_path):
+        with open(file_path, "r") as f:
+            reader = csv.reader(f)
+            header = next(reader)
+            rows = list(reader)
+            duplicates = []
+            for row in rows:
+                row = [int(i) for i in row]
+                row = np.array(row)
+                id, counts = np.unique(row, return_counts=True)
+                duplicate = id[counts > 1]
+                if len(duplicate) == 0:
+                    # -1 means no duplicates for this query
+                    duplicate = [-1]
+                duplicates.append(duplicate)
+
+        return duplicates
+    
+
+    def save_csv(self, file_path, duplicates):
+        with open(file_path, "w") as f:
+            writer = csv.writer(f)
+            for row in duplicates:
+                writer.writerow(row)
+
+
 if __name__ == "__main__":
     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
 
-    statistic = Statistic()
-    de_transe, de_simple, de_distmult, tero, atise = statistic.ranks_model("results/icews14/ranked_quads.json", model_name)
-    statistic.rank_unique(de_transe, de_simple, de_distmult, tero, atise)
-    statistic.order_csv("range_concentrate.csv")
+    # Decide the input range for each model
+    # range = CorrectRange()
+    # de_transe, de_simple, de_distmult, tero, atise = range.ranks_model("results/icews14/ranked_quads.json", model_name)
+    # range.rank_unique(de_transe, de_simple, de_distmult, tero, atise)
+    # range.order_csv("range_concentrate.csv")
+
+    # Decide to use score or one-hot-encoding
+    duplicate = Duplicates()
+    # duplicates = duplicate.detect_dupli("new_results/temp_top_5_id.csv")
+    # duplicate.save_csv("new_results/duplicates_temp_top_5_id.csv", duplicates)
+    duplicates = duplicate.detect_dupli("new_results/ens_train_top_5_id.csv")
+    duplicate.save_csv("new_results/duplicates_ens_train_top_5_id.csv", duplicates)
