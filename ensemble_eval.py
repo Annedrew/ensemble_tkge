@@ -1,5 +1,5 @@
 from loader import Loader
-from simulated_facts import SimulatedRank, SimulatedScore
+from simulated_facts import SimulatedRank, SimulatedScore, Entity_Id
 import json
 import os
 from TERO.rank_calculator import RankCalculator as TERO_Rank
@@ -43,14 +43,27 @@ class EnsembleRanking():
         
         return simu_ranks_path
     
+       # Get simulated id for all simulated fact
+    def load_entity_id(self, model_name, file_path):
+        with open(file_path, "r") as f:
+            ranked_quads = json.load(f)
+            for name in model_name:
+                model_path = os.path.join("models", name, "icews14", "Model.model")
+                loader = Loader(model_path, name)
+                model = loader.load()
+                ranker = Entity_Id(ranked_quads, model, name)
+                ranker.entity_id()
+    
 if __name__ == "__main__":
     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
     rank = EnsembleRanking()
+    rank.load_entity_id(model_name, "dataset/queries/query_ens_train.json")
+    # rank = EnsembleRanking()
     # This is for training the NN
     # rank.load_sim_score(model_name, "dataset/queries/query_ens_train.json")
     # rank.load_sim_score(model_name, "dataset/queries/temp.json")
     # This is for testing the NN, since the input of NN is the scores
-    rank.load_sim_score(model_name, "dataset/queries/query_ens_test.json")
+    # rank.load_sim_score(model_name, "dataset/queries/query_ens_test.json")
 
 
     # Calculate ensemble Scores
