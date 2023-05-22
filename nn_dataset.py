@@ -3,6 +3,7 @@ import json
 # need to choose the interpreter in conda by hand.
 import ijson
 import csv
+import pandas as pd
 
 class NNDataset:
     def __init__(self):
@@ -164,6 +165,12 @@ class NNDataset:
                 for row in rows:
                     writer.writerow(row)
 
+    def concatenate_csv(self, input_file, target_file):
+        inputs = pd.read_csv(input_file)
+        targets = pd.read_csv(target_file)
+        dataset = pd.concat([inputs, targets], axis=1)
+        dataset.to_csv('new_results/nn_dataset.csv', index=False)
+
 
     # TODO: Min-Max Normalization
     def normalize(self, fila_path):
@@ -176,14 +183,15 @@ if __name__ == "__main__":
     dataset = NNDataset()
     id_score = ["ID", "Score"]
     input_target = ["Input", "Target"]
+    dataset.concatenate_csv("new_results/ens_train_top_5_score.csv", "new_results/ens_train_target.csv")
 
     # Test code
     # target = dataset.get_target("new_results/temp_sim_scores.json", model_name)
     # dataset.save_csv("new_results/temp_target.csv", target, model_name, id_score[0], input_target[1])
 
     # Get the target for training
-    target = dataset.get_target("new_results/query_ens_train_sim_scores.json", model_name)
-    dataset.save_csv("new_results/ens_train_target.csv", target, model_name, id_score[0], input_target[1])
+    # target = dataset.get_target("new_results/query_ens_train_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/ens_train_target.csv", target, model_name, id_score[0], input_target[1])
 
     # Get the target for testing
     # target = dataset.get_target("new_results/query_ens_test_sim_scores.json", model_name)
