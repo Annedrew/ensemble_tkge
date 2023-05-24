@@ -172,11 +172,6 @@ class NNDataset:
         dataset.to_csv(dataset_name, index=False)
 
 
-    # TODO: Min-Max Normalization
-    def normalize(self, fila_path):
-        pass
-            
-
 if __name__ == "__main__":
     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
 

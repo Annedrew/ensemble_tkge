@@ -1,5 +1,5 @@
 # Constants for grid search
-weight_ranges = {
+WEIGHT_RANGE = {
         'DE_TransE':  [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
         'DE_SimplE': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
         'DE_DistMult': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
@@ -15,6 +15,6 @@ INPUT_SIZE = 25
 OUTPUT_SIZE = 5
 HIDDEN_SIZE = 25
 
-EPOCH = 1300
+EPOCH = 1#1300
 LEARNING_RATE = 0.01
 BATCH_SIZE = 32

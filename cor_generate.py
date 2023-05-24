@@ -101,6 +101,7 @@ class QueryGenerate():
         self.add_fact_id(query_csv)
         self.csv_to_json(query_csv)
 
+
 if __name__ == "__main__":
     a = QueryGenerate()
     a.query_generate("dataset/ens_dataset/ens_test.txt")
