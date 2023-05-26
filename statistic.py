@@ -1,8 +1,32 @@
 import json
+import ijson
 import csv
 import numpy as np
 
-# To analysis the concentrated range of correct answer
+
+# Analysis the sum of ranks as metric
+class SumRank:
+    def __init__(self):
+        pass
+    
+
+    def sum_rank(self, file_path, model_name):
+        with open(file_path, "r") as f:
+        # with open("temp.json", "r") as f:
+            model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
+            data = json.load(f)
+            rank_values = [list(item['RANK'].values())[:5] for item in data]
+            predictions = np.array(rank_values, dtype=int)
+            predictions = predictions.transpose()
+            predictions = {model_name[i]: predictions[i].tolist() for i in range(len(predictions))}
+            for i in range(len(model_name)):
+                instance = len(predictions[model_name[i]])
+                ranks = sum(predictions[model_name[i]])
+                print(f"Number of instance: {instance}")
+                print(f"Sumup Ranks ({model_name[i]}): {ranks}")
+
+
+# Analysis the concentrated range of correct answer
 class CorrectRange():
     def __init__(self):
         pass
@@ -68,6 +92,7 @@ class CorrectRange():
             writer.writerow(sorted_rows)
 
 
+# Analysis the shared entity/relation/time in the concentrated range
 class Duplicates:
     def __init__(self):
         pass
@@ -101,8 +126,50 @@ class Duplicates:
                 writer.writerow(row)
 
 
+# Analysis the difference of scores between each two neighbor rank
+class NeighborDiff:
+    def __init__(self):
+        pass
+
+
+    def difference(self, file_path, model_name):
+        sorted_data = {}
+        for name in model_name:
+            sorted_data[name] = []
+
+        with open(file_path, "r") as f:
+            objects = ijson.items(f, "item")
+            for obj in objects:
+                # TODO: r, t and T can also be implemented
+                if obj["HEAD"] == "0":
+                    if model_name[0] in obj["RANK"]:
+                        sorted_data[name] = sorted(json.loads(obj["RANK"][model_name[0]]))
+                        differences_0 = [sorted_data[name][i+1] - sorted_data[name][i] for i in range(len(sorted_data[name])-1)]
+                    if model_name[1] in obj["RANK"]:
+                        sorted_data[name] = sorted(json.loads(obj["RANK"][model_name[1]]))
+                        differences_1 = [sorted_data[name][i+1] - sorted_data[name][i] for i in range(len(sorted_data[name])-1)]
+                    if model_name[2] in obj["RANK"]:
+                        sorted_data[name] = sorted(json.loads(obj["RANK"][model_name[2]]))
+                        differences_2 = [sorted_data[name][i+1] - sorted_data[name][i] for i in range(len(sorted_data[name])-1)]
+                    if model_name[3] in obj["RANK"]:
+                        sorted_data[name] = sorted(json.loads(obj["RANK"][model_name[3]]))
+                        differences_3 = [sorted_data[name][i+1] - sorted_data[name][i] for i in range(len(sorted_data[name])-1)]
+                    if model_name[4] in obj["RANK"]:
+                        sorted_data[name] = sorted(json.loads(obj["RANK"][model_name[4]]))
+                        differences_4 = [sorted_data[name][i+1] - sorted_data[name][i] for i in range(len(sorted_data[name])-1)]
+                    filename = 'new_results/h_diff.csv'
+                    with open(filename, 'w', newline='') as file:
+                        writer = csv.writer(file)
+                        writer.writerow(['Difference_0', 'Difference_1', 'Difference_2', 'Difference_3', 'Difference_4'])
+                        writer.writerows([list(diff) for diff in zip(differences_0, differences_1, differences_2, differences_3, differences_4)])
+
+
 if __name__ == "__main__":
     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
+
+    # Decide to try sum of ranks as metric
+    # sumrank = SumRank()
+    # sumrank.sum_rank("results/icews14/ranked_quads.json", model_name)
 
     # Decide the input range for each model
     # range = CorrectRange()
@@ -110,9 +177,13 @@ if __name__ == "__main__":
     # range.rank_unique(de_transe, de_simple, de_distmult, tero, atise)
     # range.order_csv("range_concentrate.csv")
 
-    # Decide to use score or one-hot-encoding
-    duplicate = Duplicates()
+    # Decide to use score or one-hot-encoding as input and output
+    # duplicate = Duplicates()
     # duplicates = duplicate.detect_dupli("new_results/temp_top_5_id.csv")
     # duplicate.save_csv("new_results/duplicates_temp_top_5_id.csv", duplicates)
-    duplicates = duplicate.detect_dupli("new_results/ens_train_top_5_id.csv")
-    duplicate.save_csv("new_results/duplicates_ens_train_top_5_id.csv", duplicates)
+    # duplicates = duplicate.detect_dupli("new_results/ens_train_top_5_id.csv")
+    # duplicate.save_csv("new_results/duplicates_ens_train_top_5_id.csv", duplicates)
+
+    # Decide to use score or one-hot-encoding as output
+    diff = NeighborDiff()
+    diff.difference("new_results/temp_sim_scores.json", model_name)
