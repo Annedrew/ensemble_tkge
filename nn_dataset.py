@@ -1,7 +1,6 @@
 # Build the training and dataset for nn
 import json
-# need to choose the interpreter in conda by hand.
-import ijson
+import ijson # need to choose the interpreter in conda by hand.
 import csv
 import pandas as pd
 
@@ -320,7 +319,6 @@ class NNDataset_min_true:
                     for name in model_name:
                         row += simu_score_dict[name]
                         simu_score_dict[name] = []
-                    # print(len(row))
                     rows.append(row)
             # len(rows) = 2689
             # len(rows[0]) = 20
@@ -386,74 +384,51 @@ class NNDataset_min_true:
 
 if __name__ == "__main__":
     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
-    dataset = NNDataset_min_true()
 
-    # Get the inputs of training and test dataset
+    # # Get the inputs and targets of training dataset
+    # dataset = NNDataset_min_true()
     # inputs = dataset.get_input("new_results/query_ens_train_sim_scores.json", model_name)
     # dataset.save_csv("new_results/ens_train_inputs.csv", inputs, model_name)
     # targets = dataset.get_target("new_results/query_ens_train_sim_scores.json", model_name)
     # dataset.save_csv("new_results/ens_train_targets.csv", targets, model_name)
-
-    inputs = dataset.get_input("new_results/query_ens_test_sim_scores.json", model_name)
-    dataset.save_csv("new_results/ens_test_inputs.csv", inputs, model_name)
+    # # Get the inputs and targets of test dataset
+    # inputs = dataset.get_input("new_results/query_ens_test_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/ens_test_inputs.csv", inputs, model_name)
     # targets = dataset.get_target("new_results/query_ens_test_sim_scores.json", model_name)
     # dataset.save_csv("new_results/ens_test_targets.csv", targets, model_name)
-
-# if __name__ == "__main__":
-#     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
-
-#     dataset = NNDataset_relation()
-#     # Get the inputs of training and test dataset
-
-#     inputs = dataset.get_input_relation("new_results/temp_sim_scores.json", model_name)
-#     dataset.save_csv("new_results/temp_input_relation.csv", inputs, model_name)
+    
+    # # Get the inputs and targets of training dataset
+    # dataset = NNDataset_relation()
     # inputs = dataset.get_input_relation("new_results/query_ens_train_sim_scores.json", model_name)
     # dataset.save_csv("new_results/ens_train_input_relation.csv", inputs, model_name)
-    # inputs = dataset.get_input_relation("new_results/query_ens_test_sim_scores.json", model_name)
-    # dataset.save_csv("new_results/ens_test_input_relation.csv", inputs, model_name)
-    
-    # Get the target of training and test dataset
     # target = dataset.get_target_relation("new_results/query_ens_train_sim_scores.json", model_name)
     # dataset.save_csv("new_results/ens_train_target_relation.csv", target, model_name)
+    # # Get the inputs and targets of test dataset
+    # inputs = dataset.get_input_relation("new_results/query_ens_test_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/ens_test_input_relation.csv", inputs, model_name)
     # target = dataset.get_target_relation("new_results/query_ens_test_sim_scores.json", model_name)
     # dataset.save_csv("new_results/ens_test_target_relation.csv", target, model_name)
 
 
-# if __name__ == "__main__":
-#     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
-
-#     dataset = NNDataset()
-#     id_score = ["ID", "Score"]
-#     input_target = ["Input", "Target"]
-#     # dataset.concatenate_csv("new_results/ens_train_top_5_score.csv", "new_results/ens_train_target.csv", "new_results/ens_train.csv")
-#     dataset.concatenate_csv("new_results/ens_test_top_5_score.csv", "new_results/ens_test_target.csv", "new_results/ens_test.csv")
-
-    # Test code
-    # target = dataset.get_target("new_results/temp_sim_scores.json", model_name)
-    # dataset.save_csv("new_results/temp_target.csv", target, model_name, id_score[0], input_target[1])
-
-    # Get the target for training
-    # target = dataset.get_target("new_results/query_ens_train_sim_scores.json", model_name)
-    # dataset.save_csv("new_results/ens_train_target.csv", target, model_name, id_score[0], input_target[1])
-
-    # Get the target for testing
-    # target = dataset.get_target("new_results/query_ens_test_sim_scores.json", model_name)
-    # dataset.save_csv("new_results/ens_test_target.csv", target, model_name, id_score[0], input_target[1])
-
-    # Test code
-    # simu_score = dataset.get_input_score("new_results/temp_sim_scores.json", model_name)
-    # dataset.save_csv("new_results/temp_top_5_score.csv", simu_score, model_name, id_score[1])
-    # simu_id = dataset.get_input_id("new_results/temp_sim_scores.json", model_name)
-    # dataset.save_csv("new_results/temp_top_5_id.csv", simu_id, model_name, id_score[0])
-
-    # Get the input for training 
+    # # Get the inputs(score and ID) and targets for training 
+    # dataset = NNDataset()
+    # id_score = ["ID", "Score"]
+    # input_target = ["Input", "Target"]
     # simu_score = dataset.get_input_score("new_results/query_ens_train_sim_scores.json", model_name)
     # dataset.save_csv("new_results/ens_train_top_5_score.csv", simu_score, model_name, id_score[1])
     # simu_id = dataset.get_input_id("new_results/query_ens_train_sim_scores.json", model_name)
     # dataset.save_csv("new_results/ens_train_top_5_id.csv", simu_id, model_name, id_score[0])
-
-    # Get the input for testing
+    # target = dataset.get_target("new_results/query_ens_train_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/ens_train_target.csv", target, model_name, id_score[0], input_target[1])
+    # # Get the inputs(score and ID) and targets for testing
     # simu_score = dataset.get_input_score("new_results/query_ens_test_sim_scores.json", model_name)
     # dataset.save_csv("new_results/ens_test_top_5_score.csv", simu_score, model_name, id_score[1])
     # simu_id = dataset.get_input_id("new_results/query_ens_test_sim_scores.json", model_name)
     # dataset.save_csv("new_results/ens_test_top_5_id.csv", simu_id, model_name, id_score[0])
+    # target = dataset.get_target("new_results/query_ens_test_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/ens_test_target.csv", target, model_name, id_score[0], input_target[1])
+
+    # # Concatenate inputs and targets
+    # dataset.concatenate_csv("new_results/ens_train_top_5_score.csv", "new_results/ens_train_target.csv", "new_results/ens_train.csv")
+    # dataset.concatenate_csv("new_results/ens_test_top_5_score.csv", "new_results/ens_test_target.csv", "new_results/ens_test.csv")
+

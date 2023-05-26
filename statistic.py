@@ -1,3 +1,9 @@
+# ALL CLASS:
+# SumRank - Analysis the sum of ranks as metric
+# CorrectRange - Analysis the concentrated range of correct answer
+# Duplicates - Analysis the shared entity/relation/time in the concentrated range
+# NeighborDiff - Analysis the difference of scores between each two neighbor rank
+
 import json
 import ijson
 import csv
