@@ -29,16 +29,13 @@ class NaiveTester:
         with torch.no_grad():
             for inputs, labels in test_loader:
                 predicted_output = model(inputs)
-                mse = loss_function(predicted_output, labels)
-                rmse = torch.sqrt(mse)
                 predicted_output = predicted_output.numpy()
                 prediction = pd.DataFrame(predicted_output)
                 prediction.to_csv('new_results/prediction.csv', mode='a', header=False, index=False)
-                print(f"Loss: {rmse.item()}")
 
 if __name__ == "__main__":
     model = NaiveNN(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE)
-    dataset_path = "new_results/ens_test_min_true_5.csv"
+    dataset_path = "ens_test_h5_h5_norm.csv"
 
     tester = NaiveTester()
     tester.tester(model, dataset_path)
