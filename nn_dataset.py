@@ -3,6 +3,12 @@ import json
 import ijson # need to choose the interpreter in conda by hand.
 import csv
 import pandas as pd
+import numpy as np
+
+# NNDataset:
+# NNDataset_relation:
+# NNDataset_min_true: 
+# First_10
 
 class NNDataset:
     def __init__(self):
@@ -382,8 +388,214 @@ class NNDataset_min_true:
                 writer.writerow(row)
 
 
+class First_10:
+    def __init__(self):
+        pass
+
+    
+    def get_input_first(self, file_path, model_name):
+        with open(file_path, "r") as f:
+            simu_score_dict = {}
+            for name in model_name:
+                simu_score_dict[name] = []
+            rows = []
+
+            # The file is too big, use ijson to parse the data incrementally
+            objects = ijson.items(f, "item")
+            i = 0
+            for obj in objects:
+                i += 1
+                if i % 100 == 0:
+                    print(f"Fetching the score of query: {str(i)}")
+                if model_name[0] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[0]])[1:6]
+                    simu_score_dict[model_name[0]] = value
+                if model_name[1] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[1]])[1:6]
+                    simu_score_dict[model_name[1]] = value
+                if model_name[2] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[2]])[1:6]
+                    simu_score_dict[model_name[2]] = value
+                if model_name[3] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[3]])[1:6]
+                    simu_score_dict[model_name[3]] = value
+                if model_name[4] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[4]])[1:6]
+                    simu_score_dict[model_name[4]] = value
+                    
+                    row = []
+                    for name in model_name:
+                        row += simu_score_dict[name]
+                    rows.append(row)
+
+        return rows
+
+
+    def get_true_id(self, file_path):
+        with open(file_path, "r") as f:
+            objects = ijson.items(f, "item")
+            rows_true = []
+            for obj in objects:
+                answer = json.loads(obj["RANK"]["DE_TransE"])[0]
+                list_simu = json.loads(obj["RANK"]["DE_TransE"])[1:]
+                # 答案的ID
+                index_true = list_simu.index(answer) + 1
+                # 所有答案的ID
+                rows_true.append(index_true)
+            # 如果是超过5点就不用统计
+            rows_true = [0 if x > 5 else x for x in rows_true]
+
+        return rows_true
+    
+
+    def get_target(self, file_path, model_name):
+        with open(file_path, "r") as f:
+            aaa = []
+            simu_score_dict = {}
+            for name in model_name:
+                simu_score_dict[name] = []
+            rows = []
+
+            # The file is too big, use ijson to parse the data incrementally
+            objects = ijson.items(f, "item")
+            i = 0
+            for obj in objects:
+                i += 1
+                if i % 100 == 0:
+                    print(f"Fetching the score of query: {str(i)}")
+
+                if model_name[0] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[0]])[1:6]
+                    simu_score_dict[model_name[0]] = value
+                if model_name[1] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[1]])[1:6]
+                    simu_score_dict[model_name[1]] = value
+                if model_name[2] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[2]])[1:6]
+                    simu_score_dict[model_name[2]] = value
+                if model_name[3] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[3]])[1:6]
+                    simu_score_dict[model_name[3]] = value
+                if model_name[4] in obj["RANK"]:
+                    value = json.loads(obj["RANK"][model_name[4]])[1:6]
+                    simu_score_dict[model_name[4]] = value
+
+                # first 5
+                aa = []
+                for i in range(5):
+                    a = sum([simu_score_dict[model_name[j]][i] for j in range(len(model_name))])/len(model_name)
+                    aa.append(a)
+                sorted_list = sorted(aa)
+                ranks = []
+                ranks += [sorted_list.index(element) + 1 for element in aa]
+                aaa.append(ranks)
+
+            return aaa
+        
+    def get_target_better(self, rows_true, aaa):
+        # rows_true = np.array(rows_true)
+        # print(f"rows_true: {rows_true.shape}")
+
+        # aaa = np.array(aaa)
+        # print(f"aaa: {aaa.shape}")
+        for i in range(len(aaa)):
+            if rows_true[i] != 0:
+                aaa[i][aaa[i].index(1)], aaa[i][rows_true[i]-1] = aaa[i][rows_true[i]-1], 1
+            else:
+                pass
+
+        return aaa
+
+    def save_csv(self, file_name, rows):
+        row_name = []
+
+        # first 5
+        for i in range(5):
+            row_name.append(f"element_{i}")
+
+        # for name in model_name:
+        #     for i in range(5):
+        #         row_name.append(f"{name}_{i+1}")
+        with open(file_name, "w") as f:
+            writer = csv.writer(f)
+            writer.writerow(row_name)
+            for row in rows:
+                writer.writerow(row)
+
+    def one_hot(self):
+        data = pd.read_csv('new_results/ens_train_first_better.csv')
+        column_data = data['element_0']
+        column_data = column_data.apply(lambda x: 0 if x != 1 else x)
+        data['element_0'] = column_data
+        data.to_csv('modified_file.csv', index=False)
+
+        column_data = data['element_1']
+        column_data = column_data.apply(lambda x: 0 if x != 1 else x)
+        data['element_1'] = column_data
+        data.to_csv('modified_file.csv', index=False)
+
+        column_data = data['element_2']
+        column_data = column_data.apply(lambda x: 0 if x != 1 else x)
+        data['element_2'] = column_data
+        data.to_csv('modified_file.csv', index=False)
+
+        column_data = data['element_3']
+        column_data = column_data.apply(lambda x: 0 if x != 1 else x)
+        data['element_3'] = column_data
+        data.to_csv('modified_file.csv', index=False)
+
+        column_data = data['element_4']
+        column_data = column_data.apply(lambda x: 0 if x != 1 else x)
+        data['element_4'] = column_data
+        data.to_csv('modified_file.csv', index=False)
+
+# class NormalizeInput:
+#     def __init__(self):
+#         pass
+
+
+#     def normalize_input(self, file_name):
+
+
 if __name__ == "__main__":
-    model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
+    # model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
+    dataset = First_10()
+    dataset.one_hot()
+    # rows_true = dataset.get_true_id("new_results/query_ens_train_sim_scores.json")
+    # aaa = dataset.get_target("new_results/query_ens_train_sim_scores.json", model_name)
+    # rows = dataset.get_target_better(rows_true, aaa)
+    # dataset.save_csv("file_name.csv", rows)
+                
+    # def save_csv(self, file_name, rows, model_name):
+    #     row_name = []
+
+    #     # first 5
+    #     for i in range(5):
+    #         row_name.append(f"element_{i}")
+
+    #     # for name in model_name:
+    #     #     for i in range(5):
+    #     #         row_name.append(f"{name}_{i+1}")
+    #     with open(file_name, "w") as f:
+    #         writer = csv.writer(f)
+    #         writer.writerow(row_name)
+    #         for row in rows:
+    #             writer.writerow(row)
+
+# if __name__ == "__main__":
+#     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
+
+    # Get the inputs and targets of training dataset
+    # dataset = First_10()
+    # inputs = dataset.get_input_first("new_results/query_ens_train_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/ens_train_input_first.csv", inputs, model_name)
+    # targets = dataset.get_target("new_results/query_ens_train_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/ens_train_target_first.csv", targets, model_name)
+    # # Get the inputs and targets of test dataset
+    # inputs = dataset.get_input_first("new_results/query_ens_test_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/ens_test_input_first.csv", inputs, model_name)
+    # targets = dataset.get_target("new_results/query_ens_test_sim_scores.json", model_name)
+    # dataset.save_csv("new_results/ens_test_target_first.csv", targets, model_name)
 
     # # Get the inputs and targets of training dataset
     # dataset = NNDataset_min_true()
