@@ -8,6 +8,7 @@ import json
 import ijson
 import csv
 import numpy as np
+import pandas as pd
 
 
 # Analysis the sum of ranks as metric
@@ -170,9 +171,71 @@ class NeighborDiff:
                         writer.writerows([list(diff) for diff in zip(differences_0, differences_1, differences_2, differences_3, differences_4)])
 
 
+    # 统计排名在前100的问题有多少个，是整个test集合的
+    def hit_100(self):
+        extracted_values = []
+        with open("results/icews14/ranked_quads.json", "r") as f:
+            data = json.load(f)
+
+            transe = []
+            simple = []
+            distmult = []
+            tero = []
+            atise = []
+            for query in range(len(data)):
+                transe.append(json.loads(data[query]['RANK']['DE_TransE']))
+                simple.append(json.loads(data[query]['RANK']['DE_SimplE']))
+                distmult.append(json.loads(data[query]['RANK']['DE_DistMult']))
+                tero.append(json.loads(data[query]['RANK']['TERO']))
+                atise.append(json.loads(data[query]['RANK']['ATISE']))
+            # TransE: 35852
+            # SimplE: 35852
+            # DistMult: 35852
+            # TeRo: 35852
+            # ATiSe: 35852
+            print(f"TransE: {len(transe)}")
+            print(f"SimplE: {len(simple)}")
+            print(f"DistMult: {len(distmult)}")
+            print(f"TeRo: {len(tero)}")
+            print(f"ATiSe: {len(atise)}\n")
+                
+            transe1 = [rank for rank in transe if rank < 100]
+            simple1 = [rank for rank in simple if rank < 100]
+            distmult1 = [rank for rank in distmult if rank < 100]
+            tero1 = [rank for rank in tero if rank < 100]
+            atise1 = [rank for rank in atise if rank < 100]
+
+            # TransE(>100): 28828
+            # SimplE(>100): 27559
+            # DistMult(>100): 27117
+            # TeRo(>100): 28865
+            # ATiSe(>100): 28802
+            print(f"TransE(>100): {len(transe1)}")
+            print(f"SimplE(>100): {len(simple1)}")
+            print(f"DistMult(>100): {len(distmult1)}")
+            print(f"TeRo(>100): {len(tero1)}")
+            print(f"ATiSe(>100): {len(atise1)}\n")
+
+            # TransE(>100): 0.8040834542006025
+            # SimplE(>100): 0.768687939306036
+            # DistMult(>100): 0.7563594778533973
+            # TeRo(>100): 0.8051154747294432
+            # ATiSe(>100): 0.8033582505857414
+            print(f"TransE(>100): {len(transe1)/len(transe)}")
+            print(f"SimplE(>100): {len(simple1)/len(simple)}")
+            print(f"DistMult(>100): {len(distmult1)/len(distmult)}")
+            print(f"TeRo(>100): {len(tero1)/len(tero)}")
+            print(f"ATiSe(>100): {len(atise1)/len(atise)}")
+
+
+
+
+        
+
 if __name__ == "__main__":
     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
-
+    dataset = NeighborDiff()
+    dataset.hit_100()
     # Decide to try sum of ranks as metric
     # sumrank = SumRank()
     # sumrank.sum_rank("results/icews14/ranked_quads.json", model_name)
@@ -191,5 +254,5 @@ if __name__ == "__main__":
     # duplicate.save_csv("new_results/duplicates_ens_train_top_5_id.csv", duplicates)
 
     # Decide to use score or one-hot-encoding as output
-    diff = NeighborDiff()
-    diff.difference("new_results/temp_sim_scores.json", model_name)
+    # diff = NeighborDiff()
+    # diff.difference("new_results/temp_sim_scores.json", model_name)
