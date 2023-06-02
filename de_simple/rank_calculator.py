@@ -19,15 +19,15 @@ class RankCalculator:
         self.num_of_ent = self.dataset.numEnt()
         self.num_of_rel = self.dataset.numRel()
 
-    def get_rank(self, sim_scores):  # assuming the test fact is the first one
+    def get_rank_all(self, sim_scores):  # assuming the test fact is the first one
             rank = []
             for i in range(len(sim_scores)):
                 # here is because the first of simulated score is the score of the answers.
                 rank.append((sim_scores > sim_scores[i]).sum() + 1)
             return rank
 
-    # def get_rank(self, sim_scores):  # assuming the test fact is the first one
-    #     return (sim_scores > sim_scores[0]).sum() + 1
+    def get_rank(self, sim_scores):  # assuming the test fact is the first one
+        return (sim_scores > sim_scores[0]).sum() + 1
 
     def split_timestamp(self, element):
         dt = date.fromisoformat(element)
@@ -93,7 +93,25 @@ class RankCalculator:
         return self.shred_facts(np.array(sim_facts))
 
 
-    def get_rank_of(self, head, relation, tail, time, answer):
+    def get_simu_rank(self, head, relation, tail, time, answer):
+        target = "?"
+        if head == "0":
+            target = "h"
+        elif relation == "0":
+            target = "r"
+        elif tail == "0":
+            target = "t"
+        elif time == "0":
+            target = "T"
+
+        heads, rels, tails, years, months, days = self.simulate_facts(head, relation, tail, time, target, answer)
+        sim_scores = self.model.module(heads, rels, tails, years, months, days).cpu().data.numpy()
+        rank = self.get_rank_all(sim_scores)
+
+        return rank
+    
+
+    def get_true_rank(self, head, relation, tail, time, answer):
         target = "?"
         if head == "0":
             target = "h"
