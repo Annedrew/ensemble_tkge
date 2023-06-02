@@ -125,14 +125,14 @@ class EnsembleRanking():
         return ens_ranks_path
 
 
-    def ens_eval(self, best_weights, dataset_path):
+    def ens_eval(self, dataset_path):
         with open(dataset_path, "r") as f:
             data = json.load(f)
             ens_ranks = []
             for query in range(len(data)):
                 ens_ranks.append(json.loads(data[query]["RANK"]))
             eval = Eval()
-            ens_eval_path = eval.eval_ens(best_weights, ens_ranks)
+            ens_eval_path = eval.eval_ens(ens_ranks)
             print(f"The evaluation result saved in {ens_eval_path}")
         return ens_eval_path
 
@@ -151,5 +151,5 @@ if __name__ == "__main__":
     print("Ensemble ranks has been calculated.")
     ens_ranks_path = ens_eval.save_rank(ranks_head, ranks_relation, ranks_tail, ranks_time, sim_ranks_path)
     print("Ensemble ranks has been saved.")
-    ens_eval.ens_eval(best_weights, ens_ranks_path)
+    ens_eval.ens_eval(ens_ranks_path)
     print("Ensemble has been evaluated.")
