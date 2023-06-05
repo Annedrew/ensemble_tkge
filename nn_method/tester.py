@@ -12,7 +12,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 
 from ensemble_tkge.constants import *
 from trainer import DDataset, NaiveTrainer
-from models_nn import NaiveNN
+from models_nn import NaiveNN, AttentionNN
 
 
 class NaiveTester:
@@ -24,18 +24,23 @@ class NaiveTester:
         model.load_state_dict(torch.load('nn_method/my_baby.pt'))
         model.eval()
         dataset = DDataset(test_dataset)
-        test_loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
         loss_function = nn.MSELoss()
+        test_loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
         with torch.no_grad():
             for inputs, labels in test_loader:
                 predicted_output = model(inputs)
                 predicted_output = predicted_output.numpy()
                 prediction = pd.DataFrame(predicted_output)
+
+                mse = loss_function(outputs, batch_labels)
+                rmse = torch.sqrt(mse)
                 prediction.to_csv('new_results/prediction.csv', mode='a', header=False, index=False)
+                print(f"Loss: {rmse.item()}")
+
 
 if __name__ == "__main__":
-    model = NaiveNN(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE)
-    dataset_path = "ens_test_h5_h5_norm.csv"
+    model = AttentionNN(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE)
+    dataset_path = "dataset/NN/5p_5w/test_dataset.csv"
 
     tester = NaiveTester()
     tester.tester(model, dataset_path)
