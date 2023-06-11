@@ -1,3 +1,7 @@
+'''
+Get the data from individual models
+'''
+
 from loader import Loader
 from simulated_facts import SimulatedRank, SimulatedScore, Entity_Id, TrueRank
 import json
@@ -78,16 +82,21 @@ class DataProcess:
 if __name__ == "__main__":
     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
     dataset = DataProcess()
-    # Correct ranks
+    # The ranks for correct answer
     # dataset.load_true_rank("dataset/queries/query_ens_train.json", model_name)
+    dataset.load_true_rank("dataset/queries/query_ens_validation.json", model_name)
     # dataset.load_true_rank("dataset/queries/query_ens_test.json", model_name)
 
-    # Input for training
+    # Simu scores for validation queries
+    # dataset.load_simu_score("dataset/queries/query_ens_validation.json", model_name)
+
+    # Simu scores for training queries
     # dataset.load_simu_score("dataset/queries/query_ens_train.json", model_name)
     # Target for training
     # dataset.load_simu_rank("dataset/queries/query_ens_train.json", model_name)
 
-    # Input for evaluation
+ 
+    # Simu scores for test queries
     # dataset.load_simu_score("dataset/queries/query_ens_test.json", model_name)
     # Target for evaluation
     # dataset.load_simu_rank("dataset/queries/query_ens_test.json", model_name)

@@ -1,3 +1,7 @@
+'''
+Split the dataset into training, validation, and test dataset
+'''
+
 import json
 from sklearn.model_selection import train_test_split
 import random
