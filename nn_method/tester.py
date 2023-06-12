@@ -32,7 +32,7 @@ class NaiveTester:
                 predicted_output = predicted_output.numpy()
                 prediction = pd.DataFrame(predicted_output)
 
-                mse = loss_function(outputs, batch_labels)
+                mse = loss_function(inputs, labels)
                 rmse = torch.sqrt(mse)
                 prediction.to_csv('new_results/prediction.csv', mode='a', header=False, index=False)
                 print(f"Loss: {rmse.item()}")

@@ -5,13 +5,13 @@ import numpy as np
 from torch.utils.data import DataLoader
 import torch.optim as optim
 
-# Fix the error: module not find...
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+# # Fix the error: module not find...
+# import sys
+# import os
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from models_nn import NaiveNN, AttentionNN
-from ensemble_tkge.constants import *
+from models_old import NaiveNN, AttentionNN
+from constant import *
 
 import torch
 
@@ -110,4 +110,8 @@ class AttentionTrainer:
 
 if __name__ == "__main__":
     naive_train = NaiveTrainer()
-    naive_train.trainer("dataset/NN/25t_5w/dataset/train_dataset.csv")
+    naive_train.trainer("dataset/NN/5p_5w/dataset/train_dataset.csv")
+
+
+    # att_train = AttentionTrainer()
+    # att_train.trainer("dataset/NN/25t_5w/dataset/train_dataset.csv")

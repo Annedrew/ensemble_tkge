@@ -58,9 +58,28 @@ class HyperTune:
             layers.append(nn.Dropout(p))
             in_features = out_features
         
-        layers.append(nn.Linear(in_features, OUTPUT_SIZE))
 
-        return nn.Sequential(*layers)
+        layers.append(nn.MultiheadAttention(in_features, num_heads=1)(trial, trial, trial))
+        model = nn.Sequential(*layers)
+
+
+        # # Attention
+        # attention = nn.MultiheadAttention(in_features, num_heads=1)
+        # key = in_features.permute(1, 0, 2)
+        # value = in_features.permute(1, 0, 2)
+        # in_features, _ = attention(in_features, key, value)
+        # # Output Layer
+        # output_layer = nn.Linear(in_features, OUTPUT_SIZE)
+        # model.add_module('attention', attention)
+        # model.add_module('output', output_layer)
+
+        # Apply softmax function to produce probabilities as output
+        # layers.append(nn.Softmax(dim=1))
+
+        # layers.append(nn.Linear(in_features, OUTPUT_SIZE))
+        # Define a sequential container for composing multiple layers in a sequential manner.
+        return model
+        # return nn.Sequential(*layers)
 
     # Get the dataset
     def get_dataset(self, train_path, valid_path):
@@ -92,7 +111,7 @@ class HyperTune:
         # Get the FashionMNIST dataset.
         train_loader, valid_loader = self.get_dataset("dataset/NN/5p_5w/Dataset/train_dataset.csv", "dataset/NN/5p_5w/Dataset/validation_dataset.csv")
 
-        loss_function = nn.MSELoss()
+        criterion = nn.CrossEntropyLoss()
         # Training of the model.
         for epoch in range(EPOCHS):
             model.train()
@@ -101,9 +120,8 @@ class HyperTune:
                 # clear the gradient from previous iteration
                 optimizer.zero_grad()
                 output = model(data)
-                mse = loss_function(output, target)
-                rmse = torch.sqrt(mse)
-                rmse.backward()
+                loss = criterion(output, target)
+                loss.backward()
                 optimizer.step()
 
             # Validation of the model.
@@ -113,10 +131,9 @@ class HyperTune:
                 for data, target in valid_loader:
                     data, target = data.view(data.size(0), -1).to(DEVICE), target.to(DEVICE)
                     output = model(data)
-                    mse = loss_function(output, target)
-                    rmse = torch.sqrt(mse)
+                    loss = criterion(output, target)
                     
-                    error += rmse
+                    error += loss
 
             mean_error = error / len(valid_loader.dataset)
 
