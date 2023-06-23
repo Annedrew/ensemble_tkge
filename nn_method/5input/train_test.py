@@ -40,7 +40,7 @@ class FindEpoch:
         pass
 
 
-    def trainer(self, dataset_path):
+    def trainer(self, dataset_path, model):
         torch.manual_seed(42)
 
         train_losses = []
@@ -48,7 +48,6 @@ class FindEpoch:
         save_path = "nn_method/5input/result"
         early_stopping = EarlyStopping(save_path)
 
-        model = NaiveNN(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE)
         dataset = DDataset(dataset_path)
         loss_function = nn.MSELoss()
         optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
@@ -67,8 +66,8 @@ class FindEpoch:
                 optimizer.step()
                 train_loss += rmse.item()
 
-            # if (epoch + 1) % 1 == 0:
-            #     print(f"Epoch: {epoch+1}, Loss: {train_loss}")
+            if (epoch + 1) % 1 == 0:
+                print(f"Epoch: {epoch+1}, Train Loss: {train_loss}")
 
             model.eval()
             dataset = DDataset("dataset/NN/5p_5w/dataset/test_dataset.csv")
@@ -88,12 +87,16 @@ class FindEpoch:
                     eval_loss += rmse.item()
 
             if (epoch + 1) % 1 == 0:
-                print(f"Epoch: {epoch+1}, Loss: {eval_loss}")
-            early_stopping(eval_loss, model)
-            if early_stopping.early_stop:
-                print("Early stopping.")
-                break
+                print(f"Epoch: {epoch+1}, Test Loss: {eval_loss}")
+            
+            if epoch > 5:
+                early_stopping(train_loss, eval_loss, model)
+                if early_stopping.early_stop:
+                    print("Early stopping.")
+                    break
 
 if __name__ == "__main__":
     naive_train = FindEpoch()
-    naive_train.trainer("dataset/NN/5p_5w/dataset/train_dataset.csv")
+    # model = NaiveNN(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE)
+    model = AttentionNN(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE)
+    naive_train.trainer("dataset/NN/5p_5w/dataset/train_dataset.csv", model)

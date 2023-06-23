@@ -142,16 +142,19 @@ if __name__ == "__main__":
     model_name = ["DE_TransE", "DE_SimplE", "DE_DistMult", "TERO", "ATISE"]
     # RANK
     # best_weights = [0.5, 0.1, 0.2, 0.1, 0.1]
-    # ## MRR
+    # MRR
     # best_weights = [0.1, 0.1, 0.1, 0.3, 0.4]
-    # # RR
+    # RR
     # best_weights = [0.1, 0.1, 0.1, 0.6, 0.1]
-    # # Normalized the ensemble score directly
-    best_weights = [0.14, 0.21, 0.19, 0.24, 0.22]
+    # Normalized the ensemble score directly
+    # best_weights = [0.14, 0.21, 0.19, 0.24, 0.22]
+    # ??
+    # best_weights = [0.12, 0.19, 0.23, 0.23, 0.23]
 
     start_time = time.time()
     ens_eval = EnsembleRanking()
     sim_ranks_path = "dataset/ranks/query_ens_test_sim_ranks.json"
+    # sim_ranks_path = "dataset/ranks/query_ens_test_sim_ranks.json"
     ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time = ens_eval.get_ens_score(model_name, best_weights, sim_ranks_path)
     print("Ensemble scores has been calculated.")
     ranks_head, ranks_relation, ranks_tail, ranks_time = ens_eval.get_ens_rank(ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time, sim_ranks_path)

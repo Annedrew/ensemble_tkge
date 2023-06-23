@@ -20,8 +20,8 @@ class NaiveTester:
         pass
 
 
-    def tester(self, model, test_dataset):
-        model.load_state_dict(torch.load('nn_method/5input/result/my_baby_naive.pt'))
+    def tester(self, model, trained_model, test_dataset):
+        model.load_state_dict(torch.load(trained_model))
         model.eval()
         dataset = DDataset(test_dataset)
         loss_function = nn.MSELoss()
@@ -39,8 +39,10 @@ class NaiveTester:
 
 
 if __name__ == "__main__":
-    model = NaiveNN(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE)
+    # model = NaiveNN(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE)
+    model = AttentionNN(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE)
     dataset_path = "dataset/NN/5p_5w/dataset/test_dataset.csv"
 
     tester = NaiveTester()
-    tester.tester(model, dataset_path)
+    trained_model = "nn_method/5input/result/best_network.pt"
+    tester.tester(model, trained_model, dataset_path)

@@ -5,6 +5,7 @@ import ijson
 import os
 from TERO.rank_calculator import RankCalculator as TERO_Rank
 import numpy as np
+import pandas as pd
 from eval import Eval
 import time
 import csv
@@ -118,7 +119,7 @@ class EnsembleRanking():
                 elif data[query]["TIME"] == "0":
                     data[query]["RANK"] = str(ranks_time[ti])
                     ti += 1
-        ens_ranks_path = "new_results/ensemble_n.json"
+        ens_ranks_path = os.path.join(os.path.dirname(sim_ranks_path), f"ensemble_{sim_ranks_path.split('/')[-1].split('.')[0]}.json")
         with open(ens_ranks_path, "w") as f:
             json.dump(data, f, indent=4)
 
@@ -143,7 +144,9 @@ if __name__ == "__main__":
 
     start_time = time.time()
     ens_eval = EnsembleRanking()
-    best_weights = "new_results/prediction.csv"
+    # best_weights = "nn_method/5input/result/prediction_naive.csv"
+    best_weights = "nn_method/25input/result/prediction_naive.csv"
+
     sim_ranks_path = "dataset/ranks/query_ens_test_sim_ranks.json"
     ens_scores_head, ens_scores_relation, ens_scores_tail, ens_scores_time = ens_eval.get_ens_score(model_name, best_weights, sim_ranks_path)
     print("Ensemble scores has been calculated.")

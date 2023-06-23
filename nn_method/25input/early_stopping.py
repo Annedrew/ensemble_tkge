@@ -4,7 +4,7 @@ import os
 
 class EarlyStopping:
     """Early stops the training if validation loss doesn't improve after a given patience."""
-    def __init__(self, save_path, patience=10, verbose=False, delta=0):
+    def __init__(self, save_path, patience=3, verbose=False, delta=0):
         """
         Args:
             save_path : 模型保存文件夹
@@ -20,25 +20,30 @@ class EarlyStopping:
         self.verbose = verbose
         self.counter = 0
         self.best_score = None
+        self.diff = None
         self.early_stop = False
         self.val_loss_min = np.Inf
         self.delta = delta
 
-    def __call__(self, val_loss, model):
+    def __call__(self, train_loss, val_loss, model):
 
         score = -val_loss
+        diff_loss = abs(train_loss - val_loss)
 
         if self.best_score is None:
             self.best_score = score
             self.save_checkpoint(val_loss, model)
-        # TODO
-        elif score < self.best_score + self.delta:
+        if self.diff is None:
+            self.diff = diff_loss
+        # We don't want this
+        elif (score < self.best_score + self.delta) and (diff_loss > self.diff):
             self.counter += 1
             print(f'EarlyStopping counter: {self.counter} out of {self.patience}')
             if self.counter >= self.patience:
                 self.early_stop = True
         else:
             self.best_score = score
+            self.diff = diff_loss
             self.save_checkpoint(val_loss, model)
             self.counter = 0
 
@@ -47,6 +52,7 @@ class EarlyStopping:
         if self.verbose:
             print(f'Validation loss decreased ({self.val_loss_min:.6f} --> {val_loss:.6f}).  Saving model ...')
         path = os.path.join(self.save_path, 'best_network.pt')
-        torch.save(model.state_dict(), path)	# 这里会存储迄今最优模型的参数
+        # Save the model
+        torch.save(model.state_dict(), path)
         self.val_loss_min = val_loss
 
