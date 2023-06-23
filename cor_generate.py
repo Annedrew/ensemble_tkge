@@ -31,7 +31,7 @@ class QueryGenerate():
     def generate_corrupted_quadruple(self, file_path):
         with open(file_path, encoding='utf-8') as f:
             cor_csv_file = os.path.join("dataset/intermediate_file/", 'query_' + file_path.split('/')[-1])
-            with open(cor_csv_file, 'a', encoding='utf-8') as f2:
+            with open(cor_csv_file, 'w', encoding='utf-8') as f2:
                 f2.write("HEAD\tRELATION\tTAIL\tTIME\tANSWER" + '\n')
                 for line in f:
                     list = line.strip('\n').split('\t')
@@ -53,7 +53,7 @@ class QueryGenerate():
                         elif i == 3:
                             co_qu = np.array([a[0], a[1], a[2], 0, a[3]])
                             f2.write('\t'.join(co_qu) + '\n')
-        print("Corrupted quadruples are generated.")
+        print(f"Corrupted quadruples are generated, saved in {cor_csv_file}.")
         
         return cor_csv_file
 
@@ -100,3 +100,9 @@ class QueryGenerate():
         query_csv = self.generate_corrupted_quadruple(csv)
         self.add_fact_id(query_csv)
         self.csv_to_json(query_csv)
+
+
+if __name__ == "__main__":
+    a = QueryGenerate()
+    a.query_generate("dataset/ens_dataset/ens_test.txt")
+    a.query_generate("dataset/ens_dataset/ens_validation.txt")

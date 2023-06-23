@@ -71,5 +71,26 @@ class Grid_search:
                         init_score = ensemble_score
                         best_weights = list(weights)
                     print(f"updated weight: {weights}")
+        elif args == "Hits@1":
+            best_weights = model_weights
+            rank_json = {model_name[i]: rank_score.tolist()[i] for i in range(len(model_name))}
+            metric = MetricCalculator()
+            mrr = metric.calculate_metric(rank_json)
+            mrr_score = []
+            for name in model_name:
+                mrr_score.append([mrr[name]["Hits@1"]])
+            mrr_score = np.array(mrr_score)
+
+            init_score = self.calculate_ensemble_score(mrr_score, model_weights)
+            grid = itertools.product(*list(weight_ranges.values()))
+            for weights in grid:
+                if sum(weights) != 1:
+                    pass
+                else:
+                    ensemble_score = self.calculate_ensemble_score(mrr_score, list(weights))
+                    if ensemble_score > init_score:
+                        init_score = ensemble_score
+                        best_weights = list(weights)
+                    print(f"updated weight: {weights}")
                     
         return best_weights

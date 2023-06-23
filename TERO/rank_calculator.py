@@ -10,15 +10,17 @@ class RankCalculator:
         self.kg = model.kg
         self.model = model
 
-    def get_rank(self, scores)-> list:  # assuming the first fact is the correct fact
+
+    def get_rank_all(self, scores)-> list:  # assuming the first fact is the correct fact
             rank = []
             for i in range(len(scores)):
                 rank.append(torch.sum((scores < scores[i]).float()).item() + 1)
-            # print(len(rank))
             return rank
 
-    # def get_rank(self, scores):  # assuming the first fact is the correct fact
-    #     return torch.sum((scores < scores[0]).float()).item() + 1
+
+    def get_rank(self, scores):  # assuming the first fact is the correct fact
+        return torch.sum((scores < scores[0]).float()).item() + 1
+
 
     def get_ent_id(self, entity):
         return self.kg.entity_dict[entity]
@@ -69,7 +71,26 @@ class RankCalculator:
 
         return np.array(sim_facts, dtype='float64')
 
-    def get_rank_of(self, head, relation, tail, time, answer):
+
+    def get_simu_rank(self, head, relation, tail, time, answer):
+        target = "?"
+        if head == "0":
+            target = "h"
+        elif relation == "0":
+            target = "r"
+        elif tail == "0":
+            target = "t"
+        elif time == "0":
+            target = "T"
+
+        facts = self.simulate_facts(head, relation, tail, time, target, answer)
+        scores = self.model.forward(facts)
+        rank = self.get_rank_all(scores)
+
+        return rank
+    
+
+    def get_true_rank(self, head, relation, tail, time, answer):
         target = "?"
         if head == "0":
             target = "h"

@@ -17,11 +17,11 @@ class Bayesian_opt:
 
         # get the training dataset
         ens_train = []
-        with open("ens_train.json", "r") as f:
+        with open("dataset/true_ranks/query_ens_train_true_rank.json", "r") as f:
             data = json.load(f)
             for query in range(len(data)):
                 # Remember to filter out TFLEX model
-                rank = [int(item) for item in data[query]["RANK"].values()][:5]
+                rank = [json.loads(item) for item in data[query]["SIMU"].values()][:5]
                 ens_train.append(rank)
             ens_train = np.array(ens_train)
             # shape: (5, 25096)
@@ -38,8 +38,6 @@ class Bayesian_opt:
             hit1_score.append([mrr[name]["Hits@1"]])
         mrr_score = np.array(mrr_score)
         hit1_score = np.array(hit1_score)
-        print(mrr_score.shape)
-        print(hit1_score.shape)
 
         # get the ensemble_score_mrr
         ensemble_score_mrr = 0

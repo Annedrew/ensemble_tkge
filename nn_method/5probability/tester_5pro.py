@@ -1,0 +1,46 @@
+import torch
+import torch.nn as nn
+import pandas as pd
+import numpy as np
+import csv
+from torch.utils.data import DataLoader
+
+# # Fix the error: modulenot...
+# import sys
+# import os
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+from constant_5pro import *
+from trainer_5pro import DDataset, NaiveTrainer
+from models_nn_5pro import NaiveNN, AttentionNN
+
+
+class NaiveTester:
+    def __init__(self):
+        pass
+
+
+    def tester(self, model, test_dataset):
+        model.load_state_dict(torch.load('nn_method/5probability/my_baby_naive.pt'))
+        model.eval()
+        dataset = DDataset(test_dataset)
+        loss_function = nn.MSELoss()
+        test_loader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
+        with torch.no_grad():
+            for inputs, labels in test_loader:
+                predicted_output = model(inputs)
+                prediction = predicted_output.numpy()
+                prediction = pd.DataFrame(prediction)
+
+                mse = loss_function(predicted_output, labels)
+                rmse = torch.sqrt(mse)
+                prediction.to_csv('nn_method/5probability/prediction_naive.csv', mode='a', header=False, index=False)
+                print(f"Loss: {rmse.item()}")
+
+
+if __name__ == "__main__":
+    model = NaiveNN(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE)
+    dataset_path = "dataset/NN/5p_5pro/dataset/test_dataset.csv"
+
+    tester = NaiveTester()
+    tester.tester(model, dataset_path)
