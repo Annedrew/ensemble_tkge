@@ -1,6 +1,6 @@
 
-from de_simple.rank_calculator import RankCalculator as DE_Rank
-from TERO.rank_calculator import RankCalculator as TERO_Rank
+from tkge_models.de_simple.rank_calculator import RankCalculator as DE_Rank
+from tkge_models.TERO.rank_calculator import RankCalculator as TERO_Rank
 
 class SimulatedRank:
     # def __init__(self, params, quads, model, embedding_name):

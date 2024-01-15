@@ -1,7 +1,7 @@
 import torch
 import sys
-from de_simple import de_transe, de_simple, de_distmult, dataset, params
-from TERO import TERO_model, Dataset
+from tkge_models.de_simple import de_transe, de_simple, de_distmult, dataset, params
+from tkge_models.TERO import TERO_model, Dataset
 
 class Loader:
     def __init__(self, model_path, embedding):

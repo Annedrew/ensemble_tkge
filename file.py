@@ -3,7 +3,7 @@ from simulated_facts import SimulatedRank, SimulatedScore, Entity_Id
 import json
 import ijson
 import os
-from TERO.rank_calculator import RankCalculator as TERO_Rank
+from tkge_models.TERO.rank_calculator import RankCalculator as TERO_Rank
 import numpy as np
 import pandas as pd
 from eval import Eval
