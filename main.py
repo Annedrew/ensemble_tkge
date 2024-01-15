@@ -5,7 +5,7 @@ from constants import *
 # from save_result import *
 # from loader import Loader
 # from simulated_facts import SimulatedRank
-from dataset_split import DatasetSplit
+from dataset_processing.dataset_split import DatasetSplit
 # from cor_generate import QueryGenerate
 # import de_simple
 import json
